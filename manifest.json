@@ -21,7 +21,6 @@
     },
     "permissions": [ 
         "tabs", 
-        "contextMenus",
-        "debugger"
+        "contextMenus"
     ]
 }
