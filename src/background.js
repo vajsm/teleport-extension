@@ -3,6 +3,8 @@
  * and handle on-click actions for these options.
  */
 
+var _lastFocusedWindowId = -1;
+
 function createContextMenu(options, onItemClickedHandler) {
 
     let itemKind = options.itemKind;
@@ -98,10 +100,9 @@ chrome.runtime.onInstalled.addListener(
 
 
 chrome.windows.onCreated.addListener(function(window) {
-  console.log("a window has been added");
-  console.log(window);
-
-  // todo: add context menu option
+    console.log("a window has been added");
+    console.log(window);
+    refreshOptions();
   }
 )
 
@@ -109,16 +110,44 @@ chrome.windows.onRemoved.addListener(function(windowId) {
   console.log("a window has been removed");
   console.log(windowId);
 
-  // remove context menu option
+  // there's no need to refresh - focus needs to change on close anyway
+  // unless there's a way to close the window in the background, but I am not aware yet
+  // todo: investigate
+  //refreshOptions();
   }
 )
 
 chrome.windows.onFocusChanged.addListener(function(windowId) {
   console.log("a window has been focused");
-  // todo: toggle the visibility of context menu option
+  refreshOptions();
 }
 )
 
+function refreshOptions() {
+  getFocusedWindow(function(window) {
+    if (_lastFocusedWindowId != window.id) {
+      console.log("refreshing; last focused window: ", window);
+
+      setContextMenuForWindow(window);
+      // here refresh available context menu options
+
+      _lastFocusedWindowId = window.id;
+    }
+  })
+}
+
+function setContextMenuForWindow(window) {
+  
+}
+
+function getFocusedWindow(callback) {
+  chrome.windows.getLastFocused({ 
+    "windowTypes": ["normal"]
+  }, 
+  function(window) {
+    callback(window);
+  })
+}
 // TODOs: 
 // - on browser launch, count windows (keep their ids in memory)
 // - implement listing windows in the context menu (if there are more than two windows)
