@@ -1,6 +1,10 @@
 {
-    "teleportExisting": {
+    "teleportAnother": {
         "message": "Teleport to another window",
+        "description": ""
+    },
+    "teleportSelect": {
+        "message": "Teleport to a window...",
         "description": ""
     },
     "teleportNew": {

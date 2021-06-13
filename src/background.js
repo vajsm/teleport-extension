@@ -90,13 +90,15 @@ function onTabRemovedHandler(tab) {
   console.log(tab);
 }
 
-chrome.runtime.onInstalled.addListener(
-    createContextMenu({ itemKind:'teleportExisting' }, onTeleportExistingHandler)
-);
+//chrome.runtime.onInstalled.addListener(
+//    createContextMenu({ itemKind:'teleportExisting' }, onTeleportExistingHandler)
+//);
 
-chrome.runtime.onInstalled.addListener(
-    createContextMenu({ itemKind:'teleportNew' }, onTeleportNewHandler)
-);
+//chrome.runtime.onInstalled.addListener(
+//    createContextMenu({ itemKind:'teleportNew' }, onTeleportNewHandler)
+//);
+
+chrome.runtime.onStartup.addListener(refreshOptions);
 
 
 chrome.windows.onCreated.addListener(function(window) {
@@ -127,17 +129,28 @@ function refreshOptions() {
   getFocusedWindow(function(window) {
     if (_lastFocusedWindowId != window.id) {
       console.log("refreshing; last focused window: ", window);
-
-      setContextMenuForWindow(window);
-      // here refresh available context menu options
-
+      chrome.contextMenus.removeAll(() => {
+        setContextMenuForWindow(window);
+      });
       _lastFocusedWindowId = window.id;
     }
   })
 }
 
 function setContextMenuForWindow(window) {
-  
+  getAvailableWindows(function(windows) {
+    // always create an option to move to a new window
+    createContextMenu({ itemKind: 'teleportNew' }, onTeleportNewHandler);
+
+    if (windows.length == 2) {
+      // If there are only two windows, then expose an option to move to the another window
+      createContextMenu({ itemKind: 'teleportAnother' }, onTeleportExistingHandler);
+    }
+    else if (windows.length > 2) {
+      // TODO if there's more, add another level to the context menu, allowing to select in which window to move
+      console.log('i will implement this soon believe me')
+    }
+  })
 }
 
 function getFocusedWindow(callback) {
@@ -148,16 +161,17 @@ function getFocusedWindow(callback) {
     callback(window);
   })
 }
+
 // TODOs: 
-// - on browser launch, count windows (keep their ids in memory)
+// - if there's a single tab in the window, this is useless - hide the option to move to a new window
 // - implement listing windows in the context menu (if there are more than two windows)
-// - if there is no second window, hide "teleport to another"
 // - implement options page
 //    Allow to control:
 //    * the position where the page should be transferred to (beginning/end)
-//    * 
+//    * if the incognito tabs should be allowec to be moved
 // - implement the popup
-// - refactor
+// - address the TODOs in code
+// - refactor, summaries, logs, docs
 // - texts and translations
 // - icons
 // - packaging
