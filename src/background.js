@@ -27,7 +27,8 @@ function createContextMenu(options, onItemClicked, onItemCreated) {
 
 function getAvailableWindows(callback) {
     chrome.windows.getAll({
-        "windowTypes": ["normal"]
+        "windowTypes": ["normal"],
+        "populate": true // todo: provide this as an optional setting so that the tabs are retrieved only when needed
       }, 
       function(windows) {
         callback(windows);
@@ -123,11 +124,11 @@ function setContextMenuForWindow(window) {
         windows.filter(x => { 
           return x.id != _lastFocusedWindowId 
         })
-        .forEach(x => {
+        .forEach(function(x, idx) {
           createContextMenu({ 
             itemId: `teleportSelect_${x.id}`,
             parentId: 'teleportSelect',
-            title: getWindowName(x),
+            title: getWindowName(x, idx),
             targetId: x.id
           }, onTeleportExisting);
         })
@@ -136,10 +137,16 @@ function setContextMenuForWindow(window) {
   })
 }
 
-function getWindowName(window) {
-  // todo: improve naming based on the selected tab in window
-  // https://developer.chrome.com/docs/extensions/reference/tabs/#method-getSelected
-  return `Window nr: ${window.id}`;
+function getWindowName(window, idx) {
+  var windowName = `Window ${idx}`;
+  if (window.incognito) {
+    windowName += " (incognito)";
+  }
+  var highlightedTab = window.tabs.find(function(x) { return x.highlighted; });
+  if (highlightedTab != null) {
+    windowName += ` -- ${highlightedTab.title}`;
+  }
+  return windowName;
 }
 
 function getFocusedWindow(callback, options = {}) {
@@ -148,6 +155,10 @@ function getFocusedWindow(callback, options = {}) {
     "populate": options.populate ?? false
   }, 
   function(window) {
+    if (chrome.runtime.lastError) {
+      console.warn("Failed to get last focused window", chrome.runtime.lastError);
+      return;
+    }
     callback(window);
   })
 }
@@ -164,5 +175,4 @@ function getFocusedWindow(callback, options = {}) {
 // - texts and translations
 // - icons
 // - packaging; build; webpack
-// todo: handle 'no last focused' error
 // todo: move to manifest v3 and promises when possible
