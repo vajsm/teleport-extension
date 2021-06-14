@@ -50,11 +50,22 @@ function onTeleportNew(info, tab) {
     // and open in the very same window (minimized/maximized, size etc.)
 
     chrome.windows.create({
-      "url": tab.url,
+      "url": null,
       "state": info.state
-    }, onWindowCreated);
-    chrome.tabs.remove(tab.id, onTabRemoved(tab));
-    // todo: maybe it's better to move in a single step instead? 
+    }, function(window) {
+
+      const defaultTabId = window.tabs[0].id;
+
+      chrome.tabs.move(tab.id, {
+        "index": -1,
+        "windowId": window.id
+      }, function(tabs) { 
+
+        chrome.tabs.remove(defaultTabId, function() {
+
+        });
+      })
+    });
 }
 
 function onWindowCreated(window) {
@@ -163,5 +174,6 @@ function getFocusedWindow(callback) {
 // - refactor, summaries, logs, docs
 // - texts and translations
 // - icons
-// - packaging
+// - packaging; build; webpack
 // todo: handle 'no last focused' error
+// todo: move to manifest v3 and promises when possible
