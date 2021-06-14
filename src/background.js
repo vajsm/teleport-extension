@@ -20,7 +20,7 @@ function createContextMenu(options, onItemClicked, onItemCreated) {
       contexts: ["page", "frame"],
       parentId: parentId,
       onclick(info, tab) {
-          onItemClicked(info, tab);
+          onItemClicked(info, tab, options);
       } 
     }, onItemCreated);
 }
@@ -35,18 +35,17 @@ function getAvailableWindows(callback) {
     );
 }
 
-function onTeleportExisting(info, tab) {
+function onTeleportExisting(info, tab, options) {
     getAvailableWindows(function(windows) {
-      // todo: implement the actual id of the target window if there are more than 2 windows
-      let [target] = windows.filter(function(item) { return !item.focused; }).slice(-1);
+      const targetId = options.targetId ?? windows.find(function(item) { return !item.focused; }).id;
       chrome.tabs.move(tab.id, {
        "index": -1, // todo: implement the selection of tab's position in the window
-       "windowId": target.id
+       "windowId": targetId
       }, function(tabs) { console.log("tabs moved", tabs)})
     });
 }
 
-function onTeleportNew(info, tab) {
+function onTeleportNew(info, tab, options) {
     // todo: get details about the window the tab comes from
     // and open in the very same window (minimized/maximized, size etc.)
 
@@ -98,7 +97,7 @@ function refreshOptions() {
         setContextMenuForWindow(window);
       });
       _lastFocusedWindowId = window.id;
-      _lastFocusedWindowId = window.tabs.length;
+      _lastFocusedWindowTabsCount = window.tabs.length;
     }
   }, { "populate": true })
 }
@@ -128,7 +127,8 @@ function setContextMenuForWindow(window) {
           createContextMenu({ 
             itemId: `teleportSelect_${x.id}`,
             parentId: 'teleportSelect',
-            title: getWindowName(x)
+            title: getWindowName(x),
+            targetId: x.id
           }, onTeleportExisting);
         })
       });
