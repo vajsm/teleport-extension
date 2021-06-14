@@ -4,6 +4,7 @@
  */
 
 var _lastFocusedWindowId = -1;
+var _lastFocusedWindowTabsCount = -1;
 
 function createContextMenu(options, onItemClicked, onItemCreated) {
 
@@ -60,6 +61,7 @@ function onTeleportNew(info, tab) {
         "index": -1,
         "windowId": window.id
       }, function(tabs) { 
+        console.log("tabs moved", tabs);
 
         chrome.tabs.remove(defaultTabId, function() {
 
@@ -68,59 +70,47 @@ function onTeleportNew(info, tab) {
     });
 }
 
-function onWindowCreated(window) {
-  console.log('window created');
-  console.log(window);
-}
-
-function onTabRemoved(tab) {
-  console.log('tab closed');
-  console.log(tab);
-}
-
 chrome.runtime.onInstalled.addListener(refreshOptions);
 chrome.runtime.onStartup.addListener(refreshOptions);
 
-chrome.windows.onCreated.addListener(function(window) {
-    console.log("a window has been added");
-    console.log(window);
-    refreshOptions();
-  }
-)
+chrome.tabs.onCreated.addListener(refreshOptions);
+chrome.tabs.onRemoved.addListener(refreshOptions);
 
-// chrome.windows.onRemoved.addListener(function(windowId) {
-//   console.log("a window has been removed");
-//   console.log(windowId);
-
-//   // there's no need to refresh - focus needs to change on close anyway
-//   // unless there's a way to close the window in the background, but I am not aware yet
-//   // todo: investigate
-//   //refreshOptions();
-//   }
-// )
-
-chrome.windows.onFocusChanged.addListener(function(windowId) {
-  console.log("a window has been focused");
-  refreshOptions();
-}
-)
+chrome.windows.onCreated.addListener(refreshOptions);
+chrome.windows.onFocusChanged.addListener(refreshOptions);
 
 function refreshOptions() {
+
+  function shouldRefreshOptions(window) {
+    const tabsCount = window.tabs.length;
+
+    var focusChanged = _lastFocusedWindowId != window.id;
+    var tabsCountChanged = _lastFocusedWindowTabsCount != tabsCount 
+                        && tabsCount <= 2;  // we only care about the change if there is a change from a single to multiple tabs and vice versa
+    
+    return focusChanged || tabsCountChanged;
+  }
+
   getFocusedWindow(function(window) {
-    if (_lastFocusedWindowId != window.id) {
+    if (shouldRefreshOptions(window)) {
       console.log("refreshing; last focused window: ", window);
       chrome.contextMenus.removeAll(() => {
         setContextMenuForWindow(window);
       });
       _lastFocusedWindowId = window.id;
+      _lastFocusedWindowId = window.tabs.length;
     }
-  })
+  }, { "populate": true })
 }
 
 function setContextMenuForWindow(window) {
   getAvailableWindows(function(windows) {
-    // always create an option to move to a new window
-    createContextMenu({ itemId: 'teleportNew' }, onTeleportNew);
+    
+    if (window.tabs.length > 1) {
+      // create an option to move to a new window if there's more than one tab in the window
+      // - otherwise this option makes no sense
+      createContextMenu({ itemId: 'teleportNew' }, onTeleportNew);
+    }
 
     if (windows.length == 2) {
       // If there are only two windows, then expose an option to move to the another window
@@ -142,7 +132,6 @@ function setContextMenuForWindow(window) {
           }, onTeleportExisting);
         })
       });
-
     }
   })
 }
@@ -153,9 +142,10 @@ function getWindowName(window) {
   return `Window nr: ${window.id}`;
 }
 
-function getFocusedWindow(callback) {
+function getFocusedWindow(callback, options = {}) {
   chrome.windows.getLastFocused({ 
-    "windowTypes": ["normal"]
+    "windowTypes": ["normal"],
+    "populate": options.populate ?? false
   }, 
   function(window) {
     callback(window);
@@ -163,7 +153,6 @@ function getFocusedWindow(callback) {
 }
 
 // TODOs: 
-// - if there's a single tab in the window, this is useless - hide the option to move to a new window
 // - if there's more than one option in context menu, name it "teleport tab" instead of a default "teleport extension"
 // - implement options page
 //    Allow to control:
