@@ -3,11 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    background: './src/background',
-    // content: './src/js/content',
-    // devTools: './src/js/devTools',
-    // options: './src/js/options',
-    // popup: './src/js/popup'
+    background: './src/background'
   },
   output: {
     filename: './[name].js',
@@ -20,11 +16,6 @@ module.exports = {
       ignore: ['js/**/*', 'manifest.json'],
       copyUnmodified: false
     }),
-    // new VersionFilePlugin({
-    //   packageFile: path.resolve(__dirname, '../package.json'),
-    //   template: path.resolve(__dirname, '../manifest.json'),
-    //   outputFile: path.resolve(__dirname, '../build/dev/manifest.json'),
-    // })
   ],
   watch: true,
   watchOptions: {
