@@ -1,13 +1,13 @@
 {
-    "teleportNew": {
+    "tabToNewWindow": {
         "message": "Teleport to a new window",
         "description": ""
     },
-    "teleportAnother": {
+    "tabToAnotherWindow": {
         "message": "Teleport to another window",
         "description": ""
     },
-    "teleportSelect": {
+    "tabToSelectWindow": {
         "message": "Teleport to a window...",
         "description": ""
     }
