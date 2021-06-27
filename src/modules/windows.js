@@ -2,14 +2,22 @@ var _lastFocusedWindowId = -1;
 var _lastFocusedWindowTabsCount = -1;
 
 var Windows = {
-
+    /**
+     * Retrieves all (normal) windows of the browser.
+     * 
+     * @param {*} callback - fired after the windows are determined
+     */
     getAll: function (callback) {
         chrome.windows.getAll({
             "windowTypes": [ "normal" ],
             "populate": true
         }, callback);
     },
-
+    /**
+     * Retrieves the last known focused window.
+     * 
+     * @param {*} callback - fired after the last focused window is determined
+     */
     getFocused: function (callback) {
         chrome.windows.getLastFocused({
             "windowTypes": [ "normal" ],
@@ -17,7 +25,13 @@ var Windows = {
         },
         callback);
     },
-
+    /**
+     * Defines a name for the window, in regards to its position in the set.
+     * 
+     * @param {chrome.windows.Window} window 
+     * @param {int} idx 
+     * @returns 
+     */
     getName: function (window, idx) {
         var windowName = `Window ${idx}`;
         if (window.incognito) {
@@ -29,7 +43,12 @@ var Windows = {
         }
         return windowName;
     },
-
+    /**
+     * Determines if the context menu for a current window needs to be refreshed.
+     * 
+     * @param {chrome.windows.Window} window 
+     * @returns 
+     */
     isRefreshRequired: function (window) {
 
         const tabsCount = window.tabs.length;
@@ -40,6 +59,11 @@ var Windows = {
         return focusChanged || tabsCountChanged;
     },
 
+    /**
+     * Saves the state of the currently focused window.
+     * 
+     * @param {chrome.windows.Window} window 
+     */
     saveFocusedWindow: function (window) {
         _lastFocusedWindowId = window.id;
         _lastFocusedWindowTabsCount = window.tabs.length;
