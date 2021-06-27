@@ -1,6 +1,6 @@
 {
     "name": "Teleport Extension",
-    "version": "0.0.1.0",
+    "version": "0.1.0.0",
     "default_locale": "en",
     "manifest_version": 2,
     "description": "Chromium extension to move tabs around the browser's windows",
