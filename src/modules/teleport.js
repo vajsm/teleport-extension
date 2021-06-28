@@ -1,4 +1,4 @@
-import { Windows } from './windows.js'
+const Windows = require('./windows.js');
 
 // todo: move to a config file
 const WIN_ID_NEW = "tabToNewWindow";
@@ -140,7 +140,7 @@ var Teleport = {
         if (selectEntry != null) { 
             // Add child tabs under "teleport to..." option
             windows.filter(x => x.id != focused.id).forEach((window, idx) => {
-                const child = createChildTarget(window, WIN_ID_SELECT, idx);
+                let child = createChildTarget(window, WIN_ID_SELECT, idx);
                 targets.push(child);
             });
         }
@@ -148,5 +148,4 @@ var Teleport = {
         return targets;
     },
 };
-
-export { Teleport };
+module.exports = Teleport;

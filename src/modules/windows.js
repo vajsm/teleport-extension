@@ -71,5 +71,4 @@ var Windows = {
         _lastFocusedWindowTabsCount = window.tabs.length;
     },
 }
-
-export { Windows };
+module.exports = Windows;
