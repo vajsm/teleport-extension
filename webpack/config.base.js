@@ -2,7 +2,6 @@
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
-
 module.exports = {
     entry: {
         background: './src/background.js'

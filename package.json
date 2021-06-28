@@ -1,40 +1,42 @@
 {
-  "name": "teleport-extension",
-  "version": "0.1.0",
-  "description": "Chromium extension to move tabs around the browser's windows",
-  "engines": {
-    "node": "14.13.1",
-    "npm": "6.14.8"
-  },
-  "scripts": {
-    "build": "webpack --config ./webpack/config.prod.js",
-    "start": "webpack --config ./webpack/config.dev.js",
-    "test": "",
-    "lint": "eslint src/*.js",
-    "clean": "rm -rf ./dist"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/eslint-parser": "^7.14.7",
-    "@babel/preset-env": "^7.14.7",
-    "babel-loader": "^8.2.2",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "copy-webpack-plugin": "^9.0.1",
-    "crx-webpack-plugin": "^0.1.6",
-    "css-loader": "^5.2.6",
-    "eslint": "^7.29.0",
-    "eslint-import-resolver-babel-module": "^5.3.1",
-    "eslint-plugin-import": "^2.23.4",
-    "mocha": "^9.0.1",
-    "mocha-webpack": "^1.1.0",
-    "webpack": "^5.40.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
-    "webpack-merge": "^5.8.0",
-    "webpack-node-externals": "^3.0.0"
-  },
-  "export-symbol": "teleport.exports"
+    "name": "teleport-extension",
+    "version": "0.1.0",
+    "author": "vajsm",
+    "license": "MIT",
+    "description": "Chromium extension to move tabs around the browser's windows",
+    "engines": {
+        "node": "14.13.1",
+        "npm": "6.14.8"
+    },
+    "scripts": {
+        "build": "webpack --config ./webpack/config.prod.js",
+        "start": "webpack --config ./webpack/config.dev.js",
+        "test": "mochapack --watch --webpack-config ./webpack/config.test.js \"src/**/*.test.js\"",
+        "lint": "eslint src/*.js",
+        "clean": "rm -rf ./dist"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "@babel/core": "^7.14.6",
+        "@babel/eslint-parser": "^7.14.7",
+        "@babel/preset-env": "^7.14.7",
+        "babel-loader": "^8.2.2",
+        "babel-plugin-module-resolver": "^4.1.0",
+        "babel-plugin-transform-runtime": "^6.23.0",
+        "babel-preset-stage-2": "^6.24.1",
+        "copy-webpack-plugin": "^9.0.1",
+        "crx-webpack-plugin": "^0.1.6",
+        "css-loader": "^5.2.6",
+        "eslint": "^7.29.0",
+        "eslint-import-resolver-babel-module": "^5.3.1",
+        "eslint-plugin-import": "^2.23.4",
+        "mocha": "^9.0.1",
+        "mochapack": "^2.1.2",
+        "webpack": "^5.40.0",
+        "webpack-cli": "^4.7.2",
+        "webpack-dev-server": "^3.11.2",
+        "webpack-merge": "^5.8.0",
+        "webpack-node-externals": "^3.0.0"
+    },
+    "export-symbol": "teleport.exports"
 }
