@@ -43,8 +43,6 @@ const SupportedTargets = [
         onCreateEntry: function() {},
         onClickEntry: onTeleportExisting,
         isAvailable(focused, windows) {
-            // If there are precisely two windows, we immediately can determine the target
-            // for teleport (other than a new window)
             return windows.length > 2;
         }
     }
@@ -80,8 +78,8 @@ function createChildTarget (window, parentId, idx) {
 /**
  * Callback fired when user selects the "teleport to a new page" option.
  * 
- * @param {*} info 
- * @param {*} tab 
+ * @param {chrome.contextMenus.OnClickData} info 
+ * @param {chrome.tabs.Tab} tab 
  */
 function onTeleportNew (info, tab) {
     // Create an empty window first and then move a tab there.
@@ -91,21 +89,21 @@ function onTeleportNew (info, tab) {
         "url": null,
         "state": info.state
     }, function(window) {
-        const defaultTabId = window.tabs[0].id;
         chrome.tabs.move(tab.id, {
             "index": -1,
             "windowId": window.id
-        }, function(tabs) { 
-            chrome.tabs.remove(defaultTabId, function() {
-        })});
+        }, 
+        function(tabs) { 
+            chrome.tabs.remove(window.tabs[0].id);
+        });
     });
 }
 
 /**
  * Callback fired when user selects an option teleporting to one of the other windows.
  * 
- * @param {*} info 
- * @param {*} tab 
+ * @param {chrome.contextMenus.OnClickData} info 
+ * @param {chrome.tabs.Tab} tab 
  */
 function onTeleportExisting (info, tab) {
     const targetId = this.options.targetWindowId;
@@ -115,7 +113,10 @@ function onTeleportExisting (info, tab) {
     }, () => {});
 }
 
-
+/**
+ * Module responsible for defining the targets for teleport
+ * and handling tab teleportation.
+ */
 var Teleport = {
     /**
      * Constructs a set of all available targets to be created in the context menu. 

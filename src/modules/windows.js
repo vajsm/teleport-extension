@@ -1,6 +1,9 @@
 var _lastFocusedWindowId = -1;
 var _lastFocusedWindowTabsCount = -1;
 
+/**
+ * Module responsible for handling browser windows related operations.
+ */
 var Windows = {
     /**
      * Retrieves all (normal) windows of the browser.
@@ -58,7 +61,6 @@ var Windows = {
         
         return focusChanged || tabsCountChanged;
     },
-
     /**
      * Saves the state of the currently focused window.
      * 

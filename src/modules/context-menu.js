@@ -53,6 +53,10 @@ function onRefresh (focused, all) {
     }
 }
 
+/**
+ * Module responsible for displaying the proper options
+ * in Teleport context menu for the focused window.
+ */
 var module = {
     /**
      * Based on the current state of windows and their tabs, 
