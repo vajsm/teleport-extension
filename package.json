@@ -11,7 +11,7 @@
     "scripts": {
         "build": "webpack --config ./webpack/config.prod.js",
         "start": "webpack --config ./webpack/config.dev.js",
-        "test": "mochapack --watch --webpack-config ./webpack/config.test.js \"src/**/*.test.js\"",
+        "test": "mochapack --watch --webpack-config ./webpack/config.test.js \"tests/*.test.js\"",
         "lint": "eslint src/*.js",
         "clean": "rm -rf ./dist"
     },

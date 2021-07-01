@@ -8,7 +8,7 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     this.beforeAll(() => {
         global.chrome = chrome;
-        Teleport = require("../teleport.js");
+        Teleport = require("../src/modules/teleport.js");
         Mocks = require("./mocks.js");
     });
 
