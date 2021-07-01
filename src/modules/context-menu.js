@@ -1,5 +1,5 @@
-import { Windows } from './windows.js';
-import { Teleport } from './teleport.js';
+import Windows from './windows.js';
+import Teleport from './teleport.js';
 
 /**
  * Based on the current state of windows and their tabs,

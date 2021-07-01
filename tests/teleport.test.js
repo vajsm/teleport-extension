@@ -1,5 +1,5 @@
 import assert from 'assert';
-import chrome from 'sinon-chrome/extensions'
+import chrome from 'sinon-chrome/extensions';
 
 describe ('Teleport module: getAvailableTargets', function() {
 
@@ -8,6 +8,7 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     this.beforeAll(() => {
         global.chrome = chrome;
+    
         Teleport = require("../src/modules/teleport.js");
         Mocks = require("./mocks.js");
     });
@@ -78,7 +79,7 @@ describe ('Teleport module: getAvailableTargets', function() {
 
         assert(Array.isArray(result));
         assert(result.length == windows.length);    // Another two windows + one parent entry
-        assert(result.every(x => x.id.startsWith("tabToAnotherWindow")));
+        assert(result.every(x => x.id.startsWith("tabToSelectWindow")));
     });
 
     it ('has targets: [tabToNewWindow|tabToSelectWindow]', function() {
@@ -94,7 +95,7 @@ describe ('Teleport module: getAvailableTargets', function() {
         assert(Array.isArray(result));
         assert(result.length == windows.length + 1);    // Another two windows + one parent entry + 'to new window' entry
         assert(result.some(x => x.id == "tabToNewWindow"));
-        assert(result.filter(x => x.id.startsWith("tabToAnotherWindow")).length == windows.length);
+        assert(result.filter(x => x.id.startsWith("tabToSelectWindow")).length == windows.length);
     });
 
     this.afterAll(() => {
