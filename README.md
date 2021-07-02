@@ -1,3 +1,5 @@
+![icon](/assets/teleport48x48png)
+
 # Teleport
 Chromium extension to move tabs around the browser's windows. Works with Chrome and Edge browsers. 
 
