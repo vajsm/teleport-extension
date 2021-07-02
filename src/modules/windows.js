@@ -32,7 +32,7 @@ var Windows = {
      * Defines a name for the window, in regards to its position in the set.
      * 
      * @param {chrome.windows.Window} window 
-     * @param {int} idx 
+     * @param {number} idx 
      * @returns 
      */
     getName: function (window, idx) {

@@ -15,7 +15,7 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has no targets', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 1, focused: true, incognito: false }
+            { focused: true, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
         let focused = windows.find(x => x.focused);
 
@@ -27,7 +27,7 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has targets: [tabToNewWindow]', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 2, focused: true, incognito: false }
+            { focused: true, incognito: false, tabOptions: { tabCount: 2 } }
         ]);
         let focused = windows.find(x => x.focused);
 
@@ -40,8 +40,8 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has targets: [tabToNewWindow|tabToAnotherWindow]', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 1, focused: false, incognito: false },
-            { tabCount: 2, focused: true, incognito: false }
+            { focused: false, incognito: false, tabOptions: { tabCount: 1 } },
+            { focused: true, incognito: false, tabOptions: { tabCount: 2 } }
         ]);
         let focused = windows.find(x => x.focused);
 
@@ -55,8 +55,8 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has targets: [tabToAnotherWindow]', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 1, focused: false, incognito: false },
-            { tabCount: 1, focused: true, incognito: false }
+            { focused: false, incognito: false, tabOptions: { tabCount: 1 } },
+            { focused: true, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
         let focused = windows.find(x => x.focused);
 
@@ -69,9 +69,9 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has targets: [tabToSelectWindow]', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 3, focused: false, incognito: false },
-            { tabCount: 7, focused: false, incognito: true },
-            { tabCount: 1, focused: true, incognito: false },
+            { focused: false, incognito: false, tabOptions: { tabCount: 3 } },
+            { focused: false, incognito: true, tabOptions: { tabCount: 7 } },
+            { focused: true, incognito: false, tabOptions: { tabCount: 1 } },
         ]);
         let focused = windows.find(x => x.focused);
 
@@ -84,9 +84,9 @@ describe ('Teleport module: getAvailableTargets', function() {
 
     it ('has targets: [tabToNewWindow|tabToSelectWindow]', function() {
         let windows = Mocks.getWindows([
-            { tabCount: 3, focused: false, incognito: false },
-            { tabCount: 7, focused: false, incognito: true },
-            { tabCount: 3, focused: true, incognito: false },
+            { focused: false, incognito: false, tabOptions: { tabCount: 3 } },
+            { focused: false, incognito: true, tabOptions: { tabCount: 7 } },
+            { focused: true, incognito: false, tabOptions: { tabCount: 3 } },
         ]);
         let focused = windows.find(x => x.focused);
 
