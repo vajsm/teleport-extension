@@ -9,11 +9,12 @@
         "npm": "6.14.8"
     },
     "scripts": {
-        "build": "webpack --config ./webpack/config.prod.js",
+        "build": "webpack --config ./webpack/config.prod.js && npm run pack",
         "start": "webpack --config ./webpack/config.dev.js",
         "test": "mochapack --watch --webpack-config ./webpack/config.test.js \"tests/*.test.js\"",
         "lint": "eslint src/*.js",
-        "clean": "rm -rf ./dist"
+        "clean": "rm -rf ./dist",
+        "pack": "cd dist/prod && crx pack -p ../../packagekey.pem -o ../teleport-ext.crx"
     },
     "dependencies": {},
     "devDependencies": {
@@ -25,7 +26,7 @@
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-stage-2": "^6.24.1",
         "copy-webpack-plugin": "^9.0.1",
-        "crx-webpack-plugin": "^0.1.6",
+        "crx": "^5.0.1",
         "css-loader": "^5.2.6",
         "eslint": "^7.29.0",
         "eslint-import-resolver-babel-module": "^5.3.1",
