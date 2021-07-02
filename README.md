@@ -1,12 +1,13 @@
+# Teleport
 Chromium extension to move tabs around the browser's windows. Works with Chrome and Edge browsers. 
 
-# Features
+## Features
 With this extension, you can easily transport tabs from one of your open windows to another. The extension offers new options in the context menu of the tab, where you can select a "teleport" target -- the window where to move the tab to.
 
-# Installation
+## Installation
 `TODO`: this section will be added once the extension is released. 
 
-## Local build
+### Local build
 You can build the extension locally from source. 
 
 1. Install nodejs, npm, webpack and the required packages
@@ -31,12 +32,12 @@ npm run build
 ```
 5. Install the extension in the browser by visiting `chrome://extensions` and selecting `Load unpacked` option. Point the browser to `dist\dev` or `dist\prod` directory of the extension. If you started the build in dev mode with watch, webpack will automatically rebuild the source upon any changes, but you will need to refresh the extension in the browser to see the effects.
 
-# Architecture
+## Architecture
 * Chromium extension with manifest v2 (to be ported to v3 once it's more stable)
 * Webpack-based build
 * Mocha tests
 
-## Directories
+### Directories
 ```
 /_locales       - support for localization
 /assets         - images, icons and other assets
@@ -49,10 +50,16 @@ npm run build
 /webpack        - webpack configurations
 manifest.json   - definition of the extension
 package.json    - definition of the package
+packagekey.pem  - certificate used to package CRX
 
 ```
 Webpack will process all the source files, copy the assets and extension manifest to dist directory. This directory is the root for the unpacked extension installed in the browser.
 
-# Credits
+### Certificate
+`packagekey.pem` needs to be generated with the command:
+```
+openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt > packagekey.pem
+```
 
-Many thanks to salsita (https://github.com/salsita/chrome-extension-skeleton) for providing a good entry point for building browser extensions.
+### Credits
+Many thanks to `salsita` (https://github.com/salsita/chrome-extension-skeleton) for providing a good entry point for building browser extensions.
