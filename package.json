@@ -2,7 +2,7 @@
     "name": "teleport-extension",
     "version": "0.1.0",
     "author": "vajsm",
-    "license": "MIT",
+    "license": "GNU GENERAL PUBLIC LICENSE v3",
     "description": "Chromium extension to move tabs around the browser's windows",
     "engines": {
         "node": "14.13.1",
