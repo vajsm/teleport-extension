@@ -1,14 +1,14 @@
 {
     "tabToNewWindow": {
         "message": "Teleport to a new window",
-        "description": ""
+        "description": "Context menu option that teleports the tab to a new window."
     },
     "tabToAnotherWindow": {
         "message": "Teleport to another window",
-        "description": ""
+        "description": "Context menu option that teleports the tab to another (existing) window."
     },
     "tabToSelectWindow": {
         "message": "Teleport to a window...",
-        "description": ""
+        "description": "Context menu option that teleports the tab to the select window."
     }
 }

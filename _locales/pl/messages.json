@@ -1,0 +1,14 @@
+{
+    "tabToNewWindow": {
+        "message": "Teleportuj do nowego okna",
+        "description": "Opcja w menu kontekstowym, przenosząca kartę do nowego okna."
+    },
+    "tabToAnotherWindow": {
+        "message": "Teleportuj do drugiego okna",
+        "description": "Opcja w menu kontekstowym, przenosząca kartę do drugiego (istniejącego) okna."
+    },
+    "tabToSelectWindow": {
+        "message": "Teleportuj do okna...",
+        "description": "Opcja w menu kontekstowym, przenosząca kartę do wybranego okna."
+    }
+}

@@ -1,0 +1,74 @@
+:root {
+    --primary: rgb(32, 33, 36);
+    --secondary: rgb(32, 33, 36);
+    --foreground: rgb(95, 99, 104);
+    --accent: rgb(53, 116, 194);
+}
+
+html, body {
+    width: 500px;
+    line-height: 154%;
+    font-family: Roboto, 'Segoe UI', Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--foreground);
+}
+
+a {
+    color: var(--accent);
+}
+
+h1 {
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 120%;
+}
+
+h2 {
+    color: var(--secondary);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+#content {
+    padding: 10px 18px;
+}
+
+#details {
+    padding: 0 0 10px 48px;
+    background: url('../assets/teleport32x32.png') no-repeat;
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group-labels {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    max-width: 40%;
+}
+
+.form-group-labels label { 
+    text-align: right; 
+}
+
+.form-group select {
+    padding: 2px 6px;
+    border-color: var(--foreground);
+    color: var(--foreground);
+    border-radius: 4px;
+}
+
+.form-group label {
+    padding: 0 0 10px 0;
+}
