@@ -14,7 +14,8 @@ You can build the extension locally from source.
 ```
 # On Ubuntu:
 
-sudo apt install nodejs npm webpack
+sudo apt install nodejs npm 
+sudo npm install -g webpack webpack-cli
 cd teleport-extension
 npm install
 ```
@@ -30,7 +31,7 @@ npm run tests
 ```
 npm run build
 ```
-5. Install the extension in the browser by visiting `chrome://extensions` and selecting `Load unpacked` option. Point the browser to `dist\dev` or `dist\prod` directory of the extension. If you started the build in dev mode with watch, webpack will automatically rebuild the source upon any changes, but you will need to refresh the extension in the browser to see the effects.
+5. Install the extension in the browser by visiting `chrome://extensions` and selecting `Load unpacked` option. Point the browser to `dist\dev` or `dist\prod` directory of the extension. If you started the build in dev mode with watch, webpack will automatically rebuild the source upon any changes, but you will need to refresh the extension in the browser to see the effects. If you chose to build prod version, you will find your packed extension with .crx file format in the `dist/` directory.
 
 ## Architecture
 * Chromium extension with manifest v2 (to be ported to v3 once it's more stable)
@@ -62,4 +63,6 @@ openssl genrsa 2048 | openssl pkcs8 -topk8 -nocrypt > packagekey.pem
 ```
 
 ### Credits
-Many thanks to `salsita` (https://github.com/salsita/chrome-extension-skeleton) for providing a good entry point for building browser extensions.
+Many thanks to [salsita](https://github.com/salsita/chrome-extension-skeleton) for providing a good entry point for building browser extensions.
+
+[Portal icon by Icons8.](https://icons8.com/icon/Z6mGeoFxQMQY/portal)
