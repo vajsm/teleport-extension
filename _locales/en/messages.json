@@ -10,5 +10,49 @@
     "tabToSelectWindow": {
         "message": "Teleport to a window...",
         "description": "Context menu option that teleports the tab to the select window."
+    },
+    "option_position": {
+        "message": "Target position of the tab",
+        "description": ""
+    },
+    "option_language": {
+        "message": "Extension language",
+        "description": ""
+    },
+    "option_alltabs": {
+        "message": "Display \"Teleport all tabs\" option",
+        "description": ""
+    },
+    "option_incognito": {
+        "message": "Allow incognito windows as teleport target",
+        "description": ""
+    },
+    "option_beginning": {
+        "message": "Insert at the beginning",
+        "description": ""
+    },
+    "option_end": {
+        "message": "Insert at the end",
+        "description": ""
+    },
+    "option_en": {
+        "message": "English",
+        "description": ""
+    },
+    "option_pl": {
+        "message": "Polish",
+        "description": ""
+    },
+    "option_de": {
+        "message": "German",
+        "description": ""
+    },
+    "option_yes": {
+        "message": "Yes",
+        "description": ""
+    },
+    "option_no": {
+        "message": "No",
+        "description": ""
     }
 }

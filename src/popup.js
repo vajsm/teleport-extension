@@ -1,55 +1,36 @@
-const Options = require('./modules/options.js');
+const OptionsModule = require('./modules/options.js');
+const BrowserOptions = OptionsModule.BrowserOptions;
+const DropdownOption = OptionsModule.DropdownOption;
+const RadioOption = OptionsModule.RadioOption;
+const OptionValue = OptionsModule.OptionValue;
 
-const formSelectOptions = [
-    "position",
-    "language"
+const options = [
+    new DropdownOption("position", [
+        new OptionValue("beginning"),
+        new OptionValue("end", isDefault = true)
+    ]),
+    new DropdownOption("language", [
+        new OptionValue("en", isDefault = true),
+        new OptionValue("pl"),
+        new OptionValue("de")
+    ]),
+    new RadioOption("alltabs", [
+        new OptionValue("yes", isDefault = true),
+        new OptionValue("no")
+    ]),
+    new RadioOption("incognito", [
+        new OptionValue("yes", isDefault = true),
+        new OptionValue("no")
+    ])
 ];
 
-const fromRadioOptions = [
-    "alltabs",
-    "incognito"
-];
-
-function attachHandlers() {
-    formSelectOptions.forEach(option => {
-        document.getElementById(option).addEventListener("change", function () {
-            let value = document.getElementById(option).value;
-            Options.setOption(option, value);
-        });
+let formRoot = document.getElementById("form-root");
+options.forEach(option => {
+    option.generateHtml(formRoot);
+    option.onChanged = (function (key, value) {
+        BrowserOptions.saveOption(key, value);
     });
-
-    fromRadioOptions.forEach(option => {
-        let nodeList = document.getElementsByName(option);
-        let elements = Array.prototype.slice.call(nodeList);
-
-        elements.forEach(element => {
-            element.addEventListener("change", function () {
-                let checked = elements.find(el => el.checked);
-                Options.setOption(option, checked.id);
-            });
-        });
+    BrowserOptions.readOption(option.id, function (value) {
+        option.restore(value);
     });
-}
-
-function initOptions() {
-    formSelectOptions.forEach(option => {
-        Options.getOption(option, function (value) {
-            document.getElementById(option).value = value;
-        });
-    });
-    fromRadioOptions.forEach(option => {
-        Options.getOption(option, function (value) {
-            let nodeList = document.getElementsByName(option);
-            let elements = Array.prototype.slice.call(nodeList);
-            let optionToCheck = elements.find(x => x.id == value);
-            optionToCheck.checked = true;
-        });
-    });
-}
-
-function init() {
-    attachHandlers();
-    initOptions();
-}
-
-init();
+});
