@@ -9,3 +9,8 @@ chrome.tabs.onRemoved.addListener(ContextMenu.refresh);
 chrome.windows.onCreated.addListener(ContextMenu.refresh);
 chrome.windows.onFocusChanged.addListener(ContextMenu.refresh);
 
+chrome.runtime.onInstalled.addListener((details) => {
+
+
+
+});
