@@ -1,6 +1,5 @@
 const Windows = require('./windows.js');
 
-// todo: move to a config file
 const WIN_ID_NEW = "tabToNewWindow";
 const WIN_ID_ANOTHER = "tabToAnotherWindow";
 const WIN_ID_SELECT = "tabToSelectWindow";

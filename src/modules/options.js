@@ -164,5 +164,4 @@ const ExtensionOptions = [
         new OptionValue("no")
     ])
 ];
-
-module.exports.ExtensionOptions = ExtensionOptions;
+module.exports = ExtensionOptions;

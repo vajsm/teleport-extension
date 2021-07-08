@@ -1,5 +1,5 @@
-import Windows from './windows.js';
-import Teleport from './teleport.js';
+const Windows = require('./windows.js');
+const Teleport = require('./teleport.js');
 
 /**
  * Based on the current state of windows and their tabs,
@@ -57,7 +57,7 @@ function onRefresh (focused, all) {
  * Module responsible for displaying the proper options
  * in Teleport context menu for the focused window.
  */
-var module = {
+var ContextMenu = {
     /**
      * Based on the current state of windows and their tabs, 
      * determines if the context menu needs to be refreshed, 
@@ -69,5 +69,4 @@ var module = {
         });
     }
 };
-
-export default module;
+module.exports = ContextMenu;

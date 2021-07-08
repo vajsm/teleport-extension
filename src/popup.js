@@ -1,5 +1,8 @@
 const Storage = require('./modules/storage.js');
-const ExtensionOptions = require('./modules/options.js').ExtensionOptions;
+const ExtensionOptions = require('./modules/options.js');
+
+// todo: load title etc. from manifest
+// and localize texts
 
 let formRoot = document.getElementById("form-root");
 
