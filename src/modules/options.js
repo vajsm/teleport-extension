@@ -1,3 +1,5 @@
+const HtmlHelper = require('./html-helper.js');
+
 var BrowserOptions = {
     saveOption: function (key, value) {
         chrome.storage.local.set({ [key]: value }, function() { });
@@ -10,7 +12,6 @@ var BrowserOptions = {
     }
 };
 
-// todo: refactor HTML generation; extract to a helper module
 // todo: document
 // todo: rename members and arguments
 
@@ -78,23 +79,14 @@ class Option {
 class DropdownOption extends Option {
 
     getOptionNodes(values) {
-        let select = document.createElement("select");
-        select.name = this.id;
-        select.id = this.id;
-        values.forEach(x => {
-            let option = document.createElement("option");
-            option.value = x.value;
-            option.appendChild(document.createTextNode(x.label));
-            select.appendChild(option);
-        });
-        select.addEventListener("change", function (event) {
+        let onChanged = function (event) {
             this.onChangedCallback(this.id, event.target.value);
-        }.bind(this));
+        }.bind(this);
+        let select = HtmlHelper.createSelect(this.id, values, onChanged);
         return select;
     }
 
     selectOption(option) {
-        console.log("Should select", option);
         document.getElementById(this.id).value = option.value;
     }
 }
@@ -102,23 +94,16 @@ class DropdownOption extends Option {
 class RadioOption extends Option {
 
     getOptionNodes(values) {
+        let onChanged = function (event) {
+            this.onChangedCallback(this.id, event.target.id);
+        }.bind(this);
         let div = document.createElement("div");
         div.class = "form-group-labels";
         values.forEach(x => {
-            let label = document.createElement("label");
-            label.for = x.value;
-            label.class = "radio-label";
-            label.appendChild(document.createTextNode(x.label));
+            let label = HtmlHelper.createLabel(x);
+            let radioButton = HtmlHelper.createRadioButton(this.id, x, onChanged);
             div.appendChild(label);
-
-            let input = document.createElement("input");
-            input.type = "radio";
-            input.name = this.id;
-            input.id = x.value;
-            input.addEventListener("change", function (event) {
-                this.onChangedCallback(this.id, event.target.id);
-            }.bind(this));
-            div.appendChild(input);
+            div.appendChild(radioButton);
         });
         return div;
     }
