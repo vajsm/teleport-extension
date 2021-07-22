@@ -2,14 +2,27 @@ const Windows = require('./windows.js');
 const Teleport = require('./teleport.js');
 
 /**
+ * 
+ * @returns 
+ */
+async function getFocusedWindowTargets() {
+    const [focused, all] = await Promise.all([
+        Windows.getFocused(),
+        Windows.getAll()
+    ]); 
+    let targets = await Teleport.getAvailableTargets(focused, all);
+    return [focused, targets];
+}
+
+/**
  * Based on the current state of windows and their tabs,
  * creates Teleport entries to show for the current (focused) window. 
  * 
  * @param {chrome.windows.Window} focused - the window that's currently focused
  * @param {chrome.windows.Window[]} all - all open (regular) windows 
  */
-function createTeleportEntries (focused, all) { 
-    Teleport.getAvailableTargets(focused, all).forEach(function (target) {
+function createTeleportEntries (targets) { 
+    targets.forEach(function (target) {
         createEntry(target);
     });
 };
@@ -24,34 +37,16 @@ function createEntry (target) {
         id: target.id,
         title: target.title,
         parentId: target.parentId,
-        contexts:  [ "page", "frame" ],
-        onclick(info, tab) {
-            target.onClickEntry(info, tab);
-        } 
-    }, target.onCreateEntry);
+        contexts:  [ "page", "frame" ]
+    });
 };
 
 /**
  * Clears all the entries in the context menu.
- * 
- * @param {*} callback - this callback is called after clearing all entries in the context menu
  */
-function clear (callback) {
-    chrome.contextMenus.removeAll(callback);
+async function clear() {
+    return chrome.contextMenus.removeAll();
 };
-
-/**
- * Callback fired on refresh, when all windows and a focused window were determined.
- * 
- * @param {chrome.windows.Window} focused - the window that's currently focused
- * @param {chrome.windows.Window[]} all - all open (regular) windows 
- */
-function onRefresh (focused, all) {
-    if (Windows.isRefreshRequired(focused)) {
-        clear(_ => createTeleportEntries(focused, all));
-        Windows.saveFocusedWindow(focused);
-    }
-}
 
 /**
  * Module responsible for displaying the proper options
@@ -63,10 +58,26 @@ var ContextMenu = {
      * determines if the context menu needs to be refreshed, 
      * and repopulates the entries if it does. 
      */
-     refresh: function () {
-        Windows.getAll(all => {
-            Windows.getFocused(focused => onRefresh(focused, all));
-        });
+     refresh: async function () {
+        let [focused, targets] = await getFocusedWindowTargets();
+        if (await Windows.isRefreshRequired(focused)) {
+            await clear();
+            createTeleportEntries(targets);
+            Windows.saveFocusedWindow(focused);
+        }
+    },
+    
+    /**
+     * 
+     * @param {*} info 
+     * @param {*} tab 
+     * @returns 
+     */
+    onClicked: async function (info, tab) {
+        const menuItemId = info.menuItemId;
+        let [_, targets] = await getFocusedWindowTargets();
+        let target = targets.find(x => x.id == menuItemId);
+        return target.onClickEntry(info, tab);
     }
 };
 module.exports = ContextMenu;

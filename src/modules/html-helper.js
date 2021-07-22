@@ -22,7 +22,6 @@ var HtmlHelper = {
         select.addEventListener("change", onChanged);
         return select;
     },
-
     /**
      * Creates a label for an element (e.g. a radio button).
      * @param {OptionValue} option -  OptionValue element that translates to a selectable option
@@ -35,7 +34,6 @@ var HtmlHelper = {
         label.appendChild(document.createTextNode(option.label));
         return label;
     },
-
     /**
      * Creates a radio button for an option.
      * @param {string} name - name of the radio button

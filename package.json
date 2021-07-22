@@ -16,7 +16,10 @@
         "clean": "rm -rf ./dist",
         "pack": "cd dist/prod && crx pack -p ../../packagekey.pem -o ../teleport-ext.crx"
     },
-    "dependencies": {},
+    "dependencies": {
+        "core-js": "^3.15.2",
+        "regenerator-runtime": "^0.13.7"
+    },
     "devDependencies": {
         "@babel/core": "^7.14.6",
         "@babel/eslint-parser": "^7.14.7",

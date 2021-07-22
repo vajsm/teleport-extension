@@ -1,6 +1,9 @@
-const ContextMenu = require('./modules/context-menu.js');
-const Storage = require('./modules/storage.js');
-const ExtensionOptions = require('./modules/options.js');
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+const ContextMenu = require('./src/modules/context-menu.js');
+const Storage = require('./src/modules/storage.js');
+const ExtensionOptions = require('./src/modules/options.js');
 
 chrome.tabs.onCreated.addListener(ContextMenu.refresh);
 chrome.tabs.onRemoved.addListener(ContextMenu.refresh);
@@ -18,3 +21,5 @@ chrome.runtime.onInstalled.addListener(details => {
     }
     ContextMenu.refresh();
 });
+
+chrome.contextMenus.onClicked.addListener(ContextMenu.onClicked);

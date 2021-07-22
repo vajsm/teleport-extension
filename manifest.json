@@ -2,7 +2,7 @@
     "name": "Teleport Extension",
     "version": "0.1.0.0",
     "default_locale": "en",
-    "manifest_version": 2,
+    "manifest_version": 3,
     "description": "Chromium extension to move tabs around the browser's windows",
     "icons": {
         "16": "assets/teleport16x16.png",
@@ -10,14 +10,11 @@
         "48": "assets/teleport48x48.png",
         "128": "assets/teleport128x128.png"
     },
-    "browser_action": {
+    "action": {
         "default_popup": "src/popup.html"
     },
     "background": {
-        "scripts": [
-            "src/background.js"
-        ],
-        "persistent": true
+        "service_worker": "./background.js"
     },
     "permissions": [ 
         "tabs", 
