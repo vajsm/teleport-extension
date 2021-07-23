@@ -10,7 +10,7 @@ async function getFromLocalFile(key) {
 }
 
 var Localization = {
-    getMessage: async function (key) {
+    getMessage: async function(key) {
         try {
             return chrome.i18n.getMessage(key);
         }
@@ -20,7 +20,7 @@ var Localization = {
         }
     },
 
-    setLanguage: function (languageKey) {
+    setLanguage: function(languageKey) {
         // todo: implement language selection
     }
 };

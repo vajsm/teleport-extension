@@ -53,7 +53,7 @@ async function getSupportedTargets() {
  * @param {number} idx - human-friendly index of the target window to be displayed on the list
  * @returns 
  */
-function createChildTarget (window, parentId, idx) {
+function createChildTarget(window, parentId, idx) {
     const childId = `${parentId}_${window.id}`;
     const title = Windows.getName(window, idx);
     const options = {
@@ -77,7 +77,8 @@ function createChildTarget (window, parentId, idx) {
  * @param {chrome.contextMenus.OnClickData} info 
  * @param {chrome.tabs.Tab} tab 
  */
-async function onTeleportNew (info, tab) {
+async function onTeleportNew(info, tab) {
+    console.log("Teleporting to a new window", info, tab);
     // Create an empty window first and then move a tab there.
     // There doesn't seem to be a way to move the tab in a single step. 
     // Using 'url' property is not the same -- it will not persist state.
@@ -98,8 +99,9 @@ async function onTeleportNew (info, tab) {
  * @param {chrome.contextMenus.OnClickData} info 
  * @param {chrome.tabs.Tab} tab 
  */
-async function onTeleportExisting (info, tab) {
+async function onTeleportExisting(info, tab) {
     const targetId = this.options.targetWindowId;
+    console.log("Teleporting to an existing window", info, tab);
     return chrome.tabs.move(tab.id, {
         "index": -1, // todo: implement the selection of tab's position in the window
         "windowId": targetId
@@ -120,7 +122,7 @@ var Teleport = {
      * @param {chrome.windows.Window[]} windows 
       * @returns {Promise<Target[]>} options to be created in the context menu
      */
-    getAvailableTargets: async function (focused, windows) {
+    getAvailableTargets: async function(focused, windows) {
         const targets = (await getSupportedTargets()).filter(x => x.isAvailable(focused, windows));
        
         // todo: exclude incognito and other options

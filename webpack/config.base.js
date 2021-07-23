@@ -4,8 +4,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        background: './background.js',
-        popup: './src/popup.js'
+        'background': './background.js',
+        'src/popup': './src/popup.js'
     },
     output: {
         filename: './[name].js',
@@ -33,10 +33,7 @@ module.exports = {
             {
                 loader: 'babel-loader',
                 options: {
-                    presets: [ "@babel/preset-env",
-                    {
-                    //   "useBuiltIns": "entry"
-                    }]
+                    presets: [ "@babel/preset-env", {}]
                 }
             }
         }]

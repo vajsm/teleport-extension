@@ -12,7 +12,7 @@ var Windows = {
     /**
      * Retrieves all (normal) windows of the browser.
      */
-    getAll: async function () {
+    getAll: async function() {
         return chrome.windows.getAll({
             "windowTypes": [ "normal" ],
             "populate": true
@@ -22,7 +22,7 @@ var Windows = {
     /**
      * Retrieves the last known focused window.
      */
-    getFocused: function () {
+    getFocused: function() {
         return chrome.windows.getLastFocused({
             "windowTypes": [ "normal" ],
             "populate": true
@@ -36,7 +36,7 @@ var Windows = {
      * @param {number} idx 
      * @returns 
      */
-    getName: function (window, idx) {
+    getName: function(window, idx) {
         var windowName = `Window ${idx}`;
         if (window.incognito) {
             windowName += " (incognito)";
@@ -54,7 +54,7 @@ var Windows = {
      * @param {chrome.windows.Window} window 
      * @returns true if the context menu needs to be refreshed
      */
-    isRefreshRequired: async function (window) {
+    isRefreshRequired: async function(window) {
         const [lastWinId, lastTabCount] = await Promise.all([
             Storage.restore(StorageKeys.lastFocusedWindowId), 
             Storage.restore(StorageKeys.lastFocusedWindowTabsCount)
@@ -73,7 +73,7 @@ var Windows = {
      * 
      * @param {chrome.windows.Window} window 
      */
-    saveFocusedWindow: async function (window) {
+    saveFocusedWindow: async function(window) {
         return Promise.all([
             Storage.save(StorageKeys.lastFocusedWindowId, window.id),
             Storage.save(StorageKeys.lastFocusedWindowTabsCount, window.tabs.length)

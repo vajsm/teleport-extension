@@ -11,7 +11,7 @@ chrome.tabs.onRemoved.addListener(ContextMenu.refresh);
 chrome.windows.onCreated.addListener(ContextMenu.refresh);
 chrome.windows.onFocusChanged.addListener(ContextMenu.refresh);
 
-chrome.runtime.onStartup.addListener(ContextMenu.refresh);
+chrome.runtime.onStartup.addListener(ContextMenu.forceRefresh);
 chrome.runtime.onInstalled.addListener(details => {
     if (details.reason == "install") {
         ExtensionOptions.forEach(option => {
@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(details => {
             Storage.save(option.id, defaultOption.value);
         });
     }
-    ContextMenu.refresh();
+    ContextMenu.forceRefresh();
 });
 
 chrome.contextMenus.onClicked.addListener(ContextMenu.onClicked);

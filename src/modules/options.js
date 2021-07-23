@@ -4,7 +4,7 @@ const HtmlHelper = require('./html-helper.js');
  * Represents a single setting available for selection from a set of possible options.
  */
 class OptionValue {
-    constructor (value, isDefault = false) {
+    constructor(value, isDefault = false) {
         this.value = value;
         this.isDefault = isDefault;
     }
@@ -21,7 +21,7 @@ class OptionValue {
  * Represents a set of settings available for selection.
  */
 class Option {
-    constructor (id, values) {
+    constructor(id, values) {
         if (this.constructor === Option) {
             throw new Error("Option is an abstract class and cannot be instantiated.");
         }

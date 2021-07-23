@@ -14,7 +14,7 @@
       * @param {string} key - setting key
       * @param {*} value - value to save
       */
-    save: async function (key, value) {
+    save: async function(key, value) {
         return new Promise((resolve, reject) => {
             chrome.storage.local.set({ [key]: value }, function() { 
                 resolve();
@@ -25,7 +25,7 @@
      * Reads the data from the storage.
      * @param {string} key - setting key
      */
-    restore: async function (key) {
+    restore: async function(key) {
         return new Promise((resolve, reject) => {
             chrome.storage.local.get([key], function(result) {
                 resolve(result[key]);
