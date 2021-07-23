@@ -183,8 +183,9 @@ const SupportedOptions = [
     ]),
     new DropdownOption(OptionsEnum.language, [
         new OptionValue("en", isDefault = true),
-        new OptionValue("pl"),
-        new OptionValue("de")
+        // TODO: other languages not yet supported
+        // new OptionValue("pl"),
+        // new OptionValue("de")
     ]),
     new RadioOption(OptionsEnum.allTabs, [
         new OptionValue("yes", isDefault = true),
