@@ -14,7 +14,7 @@ ExtensionOptions.forEach(option => {
     option.onChanged = (function (key, value) {
         Storage.save(key, value);
     });
-    Storage.restore(option.id, function (value) {
+    Storage.restore(option.id).then(function (value) {
         option.restore(value);
     });
 });
