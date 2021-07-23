@@ -151,24 +151,24 @@ const OptionsEnum =
      * Represents the target position of teleported tab(s).
      * Available values: `beginning`, `end`.
      */
-    Position: "position",
+    position: "position",
     /**
      * Represents the display language.
      * Available values: two-letter ISO 639-1 language code.
      */
-    Language: "language",
+    language: "language",
     /**
      * Represents the availability of "teleport all tabs" option 
      * in the context menu.
      * Available values: `yes`/`no`.
      */
-    AllTabs: "alltabs",
+    allTabs: "alltabs",
     /**
      * Represents the availability of incognito windows as teleport target
      * in the context menu.
      * Available values: `yes`/`no`.
      */
-    Incognito: "incognito"
+    incognito: "incognito"
 }
 Object.freeze(OptionsEnum);
 
@@ -177,20 +177,20 @@ Object.freeze(OptionsEnum);
  * and their default values.
  */
 const SupportedOptions = [
-    new DropdownOption(OptionsEnum.Position, [
+    new DropdownOption(OptionsEnum.position, [
         new OptionValue("beginning"),
         new OptionValue("end", isDefault = true)
     ]),
-    new DropdownOption(OptionsEnum.Language, [
+    new DropdownOption(OptionsEnum.language, [
         new OptionValue("en", isDefault = true),
         new OptionValue("pl"),
         new OptionValue("de")
     ]),
-    new RadioOption(OptionsEnum.AllTabs, [
+    new RadioOption(OptionsEnum.allTabs, [
         new OptionValue("yes", isDefault = true),
         new OptionValue("no")
     ]),
-    new RadioOption(OptionsEnum.Incognito, [
+    new RadioOption(OptionsEnum.incognito, [
         new OptionValue("yes", isDefault = true),
         new OptionValue("no")
     ])
@@ -214,7 +214,7 @@ var Options = {
      * @param {string} key 
      */
     get: async function(key) {
-        let option = SupportedOptions.find(option => option.key == key);
+        let option = SupportedOptions.find(option => option.id == key);
         return restoreOption(option);
     },
     /**

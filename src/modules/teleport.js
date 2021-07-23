@@ -1,5 +1,6 @@
 const Windows = require('./windows.js');
-const Storage = require('./storage.js');
+const Options = require('./options.js').Options;
+const OptionsEnum = require('./options.js').OptionsEnum;
 const Localization = require('./localization.js');
 
 const WIN_ID_NEW = "tabToNewWindow";
@@ -102,8 +103,9 @@ async function onTeleportNew(info, tab) {
 async function onTeleportExisting(info, tab) {
     const targetId = this.options.targetWindowId;
     console.log("Teleporting to an existing window", info, tab);
+    let position = (await Options.get(OptionsEnum.position)).selectedValue;
     return chrome.tabs.move(tab.id, {
-        "index": -1, // todo: implement the selection of tab's position in the window
+        "index": position == "end" ? -1 : 0,
         "windowId": targetId
     });
 }
@@ -123,9 +125,15 @@ var Teleport = {
       * @returns {Promise<Target[]>} options to be created in the context menu
      */
     getAvailableTargets: async function(focused, windows) {
-        const targets = (await getSupportedTargets()).filter(x => x.isAvailable(focused, windows));
-       
-        // todo: exclude incognito and other options
+        let targets = await getSupportedTargets();
+        let allowIncognito = (await Options.get(OptionsEnum.incognito)).selectedValue == "yes";
+
+        if (!allowIncognito) {
+            console.log("Filtering out incognito windows");
+            windows = windows.filter(x => x.id == focused.id || !x.incognito);
+        }
+
+        targets = targets.filter(x => x.isAvailable(focused, windows));
 
         let anotherEntry = targets.find(x => x.id == WIN_ID_ANOTHER);
         let selectEntry = targets.find(x => x.id == WIN_ID_SELECT);

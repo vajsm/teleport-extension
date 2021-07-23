@@ -25,7 +25,7 @@
     },
     "option_incognito": {
         "message": "Allow incognito windows as teleport target",
-        "description": ""
+        "description": "Extension must be enabled in incognito windows (go to <i>chrome://extensions -> Details -> Allow in incognito mode</i>)."
     },
     "option_beginning": {
         "message": "Insert at the beginning",

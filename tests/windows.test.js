@@ -5,8 +5,7 @@ import chrome from 'sinon-chrome/extensions';
 
 describe ('Windows module: getName', function() {
 
-    let Windows;
-    let Mocks;
+    let Windows, Mocks;
 
     this.beforeAll(() => {
         global.chrome = chrome;
@@ -58,8 +57,7 @@ describe ('Windows module: getName', function() {
 
 describe ('Windows module: isRefreshRequired', function() {
 
-    let Mocks;
-    let Windows;
+    let Mocks, Windows;
 
     this.beforeAll(() => {
         global.chrome = chrome;
