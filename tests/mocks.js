@@ -1,10 +1,14 @@
+const Storage = require('../src/modules/storage.js');
+
+var storage = {};
+
 /**
  * A helper method to create a mock of chrome.windows.Window.
  * @param {object} option - short definitions of a window to mock
  * @param {number} idx - index of the window
  * @returns 
  */
-function getIndexedWindow (option, idx) {
+function getIndexedWindow(option, idx) {
     let windowId = idx + 1;
     return {
         alwaysOnTop: false,
@@ -28,7 +32,7 @@ function getIndexedWindow (option, idx) {
  * @param {number} windowId - index of the window
  * @returns 
  */
-function getTabs (option, windowId) {
+function getTabs(option, windowId) {
     let tabs = [];
     let tabOptions = option.tabOptions;
     let highlighted = tabOptions.highlighted ?? true;   // By default there is a highlighted tab
@@ -69,7 +73,7 @@ var Mocks = {
      *                   incognito - if the window has incognito tabs
      * @returns a set of mocked windows
      */
-    getWindows: function (windowOptionsSet) {
+    getWindows: function(windowOptionsSet) {
         let windows = windowOptionsSet.map(getIndexedWindow);
         return windows;
     },
@@ -83,9 +87,36 @@ var Mocks = {
      *                   incognito - if the window has incognito tabs
      * @returns a mocked window
      */
-    getWindow: function (windowOptions) {
+    getWindow: function(windowOptions) {
         let window = getIndexedWindow(windowOptions, 0);
         return window;
+    },
+
+    /**
+     * Sets up a fake storage that replaces `src/modules/storage.js` module.
+     * @param {*} sinon 
+     */
+    setupStorage: function(sinon) {
+        sinon.stub(Storage, 'save').callsFake(async function (key, value) {
+            return new Promise((resolve, reject) => {
+                storage[key] = value;
+                resolve();
+            });
+        });
+        
+        sinon.stub(Storage, 'restore').callsFake(async function (key) {
+            return new Promise((resolve, reject) => {
+                resolve(storage[key]);
+            });
+        });
+    },
+
+    /**
+     * Resets the fake storage so that original implementation will be restored.
+     */
+    restoreStorage: function() {
+        Storage.restore.restore();
+        Storage.save.restore();
     }
 }
 module.exports = Mocks;

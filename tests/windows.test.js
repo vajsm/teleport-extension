@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import assert from 'assert';
 import chrome from 'sinon-chrome/extensions';
 
@@ -14,7 +16,6 @@ describe ('Windows module: getName', function() {
     });
 
     it ('has no highlighed tab', function() {
-        
         let window = Mocks.getWindow({ 
             focused: false, 
             incognito: false, 
@@ -49,77 +50,96 @@ describe ('Windows module: getName', function() {
 
         assert(result == "Window 1 (incognito) -- Tab 1");
     });
+    
+    this.afterAll(() => {
+        chrome.flush();
+    });
 });
 
 describe ('Windows module: isRefreshRequired', function() {
 
     let Mocks;
     let Windows;
+    let Sinon;
 
     this.beforeAll(() => {
         global.chrome = chrome;
 
         Windows = require("../src/modules/windows.js");
         Mocks = require("./mocks.js");
+        Sinon = require("sinon");
     });
 
-    it ('has changed focus to the same window', function() {
+    this.beforeEach(() => {
+        Mocks.setupStorage(Sinon);
+    });
+
+    it ('has changed focus to the same window', async function() {
+
         let windows = Mocks.getWindows([
             { focused: true, incognito: false, tabOptions: { tabCount: 1 } },
             { focused: false, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
-        Windows.saveFocusedWindow(windows[0]);
+        await Windows.saveFocusedWindow(windows[0]);
 
-        var result = Windows.isRefreshRequired(windows[0]);
+        var result = await Windows.isRefreshRequired(windows[0]);
 
         assert(result == false);
     });
 
-    it ('has changed focus to another window', function() {
+    it ('has changed focus to another window', async function() {
         let windows = Mocks.getWindows([
             { focused: true, incognito: false, tabOptions: { tabCount: 1 } },
             { focused: false, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
-        Windows.saveFocusedWindow(windows[0]);
+        await Windows.saveFocusedWindow(windows[0]);
 
-        var result = Windows.isRefreshRequired(windows[1]);
+        var result = await Windows.isRefreshRequired(windows[1]);
 
         assert(result == true);
     });
 
-    it ('has tab count changed to one', function() {
+    it ('has tab count changed to one', async function() {
         let window = Mocks.getWindow({ focused: true, incognito: false, tabOptions: { tabCount: 2 } });
-        Windows.saveFocusedWindow(window);
+        await Windows.saveFocusedWindow(window);
         window.tabs.pop();
 
-        var result = Windows.isRefreshRequired(window);
+        var result = await Windows.isRefreshRequired(window);
 
         assert(result == true);
     });
 
-    it ('has tab count changed to two', function() {
+    it ('has tab count changed to two', async function() {
         let window = Mocks.getWindow({ focused: true, incognito: false, tabOptions: { tabCount: 2 } });
         let otherTab = window.tabs.pop();
         assert (window.tabs.length == 1);
-        Windows.saveFocusedWindow(window);
+        await Windows.saveFocusedWindow(window);
         window.tabs.push(otherTab);
         assert (window.tabs.length == 2);
 
-        var result = Windows.isRefreshRequired(window);
+        var result = await Windows.isRefreshRequired(window);
 
         assert(result == true);
     });
 
-    it ('has tab count changed to three', function() {
+    it ('has tab count changed to three', async function() {
         let window = Mocks.getWindow({ focused: true, incognito: false, tabOptions: { tabCount: 3 } });
         let otherTab = window.tabs.pop();
         assert (window.tabs.length == 2);
-        Windows.saveFocusedWindow(window);
+        await Windows.saveFocusedWindow(window);
         window.tabs.push(otherTab);
         assert (window.tabs.length == 3);
 
-        var result = Windows.isRefreshRequired(window);
+        var result = await Windows.isRefreshRequired(window);
 
         assert(result == false);
+    });
+
+    this.afterEach(() => {
+        Mocks.restoreStorage();
+    });
+
+    this.afterAll(() => {
+        chrome.flush();
     });
 });

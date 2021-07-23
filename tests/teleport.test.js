@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import assert from 'assert';
 import chrome from 'sinon-chrome/extensions';
 
@@ -13,39 +15,39 @@ describe ('Teleport module: getAvailableTargets', function() {
         Mocks = require("./mocks.js");
     });
 
-    it ('has no targets', function() {
+    it ('has no targets', async function() {
         let windows = Mocks.getWindows([
             { focused: true, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == 0);
     });
 
-    it ('has targets: [tabToNewWindow]', function() {
+    it ('has targets: [tabToNewWindow]', async function() {
         let windows = Mocks.getWindows([
             { focused: true, incognito: false, tabOptions: { tabCount: 2 } }
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == 1);
         assert(result[0].id == "tabToNewWindow");
     });
 
-    it ('has targets: [tabToNewWindow|tabToAnotherWindow]', function() {
+    it ('has targets: [tabToNewWindow|tabToAnotherWindow]', async function() {
         let windows = Mocks.getWindows([
             { focused: false, incognito: false, tabOptions: { tabCount: 1 } },
             { focused: true, incognito: false, tabOptions: { tabCount: 2 } }
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == 2);
@@ -53,21 +55,21 @@ describe ('Teleport module: getAvailableTargets', function() {
         assert(result.some(x => x.id == "tabToAnotherWindow"));
     });
 
-    it ('has targets: [tabToAnotherWindow]', function() {
+    it ('has targets: [tabToAnotherWindow]', async function() {
         let windows = Mocks.getWindows([
             { focused: false, incognito: false, tabOptions: { tabCount: 1 } },
             { focused: true, incognito: false, tabOptions: { tabCount: 1 } }
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == 1);
         assert(result[0].id == "tabToAnotherWindow");
     });
 
-    it ('has targets: [tabToSelectWindow]', function() {
+    it ('has targets: [tabToSelectWindow]', async function() {
         let windows = Mocks.getWindows([
             { focused: false, incognito: false, tabOptions: { tabCount: 3 } },
             { focused: false, incognito: true, tabOptions: { tabCount: 7 } },
@@ -75,14 +77,14 @@ describe ('Teleport module: getAvailableTargets', function() {
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == windows.length);    // Another two windows + one parent entry
         assert(result.every(x => x.id.startsWith("tabToSelectWindow")));
     });
 
-    it ('has targets: [tabToNewWindow|tabToSelectWindow]', function() {
+    it ('has targets: [tabToNewWindow|tabToSelectWindow]', async function() {
         let windows = Mocks.getWindows([
             { focused: false, incognito: false, tabOptions: { tabCount: 3 } },
             { focused: false, incognito: true, tabOptions: { tabCount: 7 } },
@@ -90,7 +92,7 @@ describe ('Teleport module: getAvailableTargets', function() {
         ]);
         let focused = windows.find(x => x.focused);
 
-        let result = Teleport.getAvailableTargets(focused, windows);
+        let result = await Teleport.getAvailableTargets(focused, windows);
 
         assert(Array.isArray(result));
         assert(result.length == windows.length + 1);    // Another two windows + one parent entry + 'to new window' entry
