@@ -1,4 +1,5 @@
 const HtmlHelper = require('./html-helper.js');
+const Storage = require('./storage.js');
 
 /**
  * Represents a single setting available for selection from a set of possible options.
@@ -53,7 +54,7 @@ class Option {
         title.appendChild(document.createTextNode(`${this.label}:`));
         div.className = "form-group";
         div.appendChild(title);
-        div.appendChild(this.getOptionNodes(this.values));
+        div.appendChild(this.getOptionNodes(this.values, this.selectedValue));
         parent.appendChild(div);
     }
     /**
@@ -70,8 +71,9 @@ class Option {
      * Returns HTML for the options. 
      * Needs to be restored in derived class, based on the type of the controls.
      * @param {OptionValue[]} values - possible options to select 
+     * @param {OptionValue} initialValue - currently selected (initial) value
      */
-    getOptionNodes(values) {
+    getOptionNodes(values, initialValue) {
         throw new Error("Method must be overloaded in a derived class.");
     }
     /**
@@ -88,11 +90,12 @@ class Option {
  * Represents a set of settings available for selection from a dropdown list.
  */
 class DropdownOption extends Option {
-    getOptionNodes(values) {
+    getOptionNodes(values, initialValue) {
         let onChanged = function (event) {
             this.onChangedCallback(this.id, event.target.value);
         }.bind(this);
         let select = HtmlHelper.createSelect(this.id, values, onChanged);
+        select.value = initialValue;
         return select;
     }
     selectOption(option) {
@@ -104,7 +107,7 @@ class DropdownOption extends Option {
  * Represents a set of settings available for selection from a set of radio buttons.
  */
 class RadioOption extends Option {
-    getOptionNodes(values) {
+    getOptionNodes(values, initialValue) {
         let onChanged = function (event) {
             this.onChangedCallback(this.id, event.target.id);
         }.bind(this);
@@ -113,6 +116,9 @@ class RadioOption extends Option {
         values.forEach(x => {
             let label = HtmlHelper.createLabel(x);
             let radioButton = HtmlHelper.createRadioButton(this.id, x, onChanged);
+            if (x.value == initialValue) {
+                radioButton.checked = true;
+            }
             div.appendChild(label);
             div.appendChild(radioButton);
         });
@@ -121,32 +127,116 @@ class RadioOption extends Option {
     selectOption(option) {
         let nodeList = document.getElementsByName(this.id);
         let elements = Array.prototype.slice.call(nodeList);
-        let optionToCheck = elements.find(x => x.id == option.value);
-        optionToCheck.checked = true;
+        elements.find(x => x.id == option.value).checked = true;
     }
 }
+
+/**
+ * Reads the value of a given option from local storage and updates the HTML.
+ * @param {*} option 
+ * @returns the updated option
+ */
+async function restoreOption(option) {
+    let savedValue = await Storage.restore(option.id);
+    option.selectedValue = savedValue;
+    return option;
+}
+
+/**
+ * This enum represents available options to configure in the extension.
+ */
+const OptionsEnum = 
+{
+    /**
+     * Represents the target position of teleported tab(s).
+     * Available values: `beginning`, `end`.
+     */
+    Position: "position",
+    /**
+     * Represents the display language.
+     * Available values: two-letter ISO 639-1 language code.
+     */
+    Language: "language",
+    /**
+     * Represents the availability of "teleport all tabs" option 
+     * in the context menu.
+     * Available values: `yes`/`no`.
+     */
+    AllTabs: "alltabs",
+    /**
+     * Represents the availability of incognito windows as teleport target
+     * in the context menu.
+     * Available values: `yes`/`no`.
+     */
+    Incognito: "incognito"
+}
+Object.freeze(OptionsEnum);
 
 /**
  * Definition of options supported by the extension
  * and their default values.
  */
-const ExtensionOptions = [
-    new DropdownOption("position", [
+const SupportedOptions = [
+    new DropdownOption(OptionsEnum.Position, [
         new OptionValue("beginning"),
         new OptionValue("end", isDefault = true)
     ]),
-    new DropdownOption("language", [
+    new DropdownOption(OptionsEnum.Language, [
         new OptionValue("en", isDefault = true),
         new OptionValue("pl"),
         new OptionValue("de")
     ]),
-    new RadioOption("alltabs", [
+    new RadioOption(OptionsEnum.AllTabs, [
         new OptionValue("yes", isDefault = true),
         new OptionValue("no")
     ]),
-    new RadioOption("incognito", [
+    new RadioOption(OptionsEnum.Incognito, [
         new OptionValue("yes", isDefault = true),
         new OptionValue("no")
     ])
 ];
-module.exports = ExtensionOptions;
+
+/**
+ * A set of helper methods to read, update and sync extension settings.
+ */
+var Options = {
+    /**
+     * Initializes the storage with default options.
+     */
+    setDefaults: async function() {
+        SupportedOptions.forEach(option => {
+            let defaultOption = option.values.find(x => x.isDefault);
+            Storage.save(option.id, defaultOption.value);
+        });
+    },
+    /**
+     * Returns the current setting with a given key.
+     * @param {string} key 
+     */
+    get: async function(key) {
+        let option = SupportedOptions.find(option => option.key == key);
+        return restoreOption(option);
+    },
+    /**
+     * Returns all the supported settings and their values.
+     */
+    getAll: async function() {
+        let allOptions = await Promise.all(SupportedOptions.map(async (option) => {
+            return restoreOption(option);
+        }));
+        return allOptions;
+    },
+    /**
+     * Allows to set a value for an extension option.
+     * @param {*} key - must be a supported extension key. You can use `OptionsEnum` values
+     * @param {*} value - must lay in the range of supported values for this option
+     */
+    set: async function(key, value) {
+        Storage.save(key, value);
+    }
+}
+
+module.exports = {
+    Options,
+    OptionsEnum
+}

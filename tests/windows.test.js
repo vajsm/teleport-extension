@@ -60,18 +60,16 @@ describe ('Windows module: isRefreshRequired', function() {
 
     let Mocks;
     let Windows;
-    let Sinon;
 
     this.beforeAll(() => {
         global.chrome = chrome;
 
         Windows = require("../src/modules/windows.js");
         Mocks = require("./mocks.js");
-        Sinon = require("sinon");
     });
 
     this.beforeEach(() => {
-        Mocks.setupStorage(Sinon);
+        Mocks.setupStorage();
     });
 
     it ('has changed focus to the same window', async function() {

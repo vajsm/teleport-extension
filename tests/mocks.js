@@ -1,4 +1,5 @@
 const Storage = require('../src/modules/storage.js');
+const Sinon = require("sinon");
 
 var storage = {};
 
@@ -94,17 +95,16 @@ var Mocks = {
 
     /**
      * Sets up a fake storage that replaces `src/modules/storage.js` module.
-     * @param {*} sinon 
      */
-    setupStorage: function(sinon) {
-        sinon.stub(Storage, 'save').callsFake(async function (key, value) {
+    setupStorage: function() {
+        Sinon.stub(Storage, 'save').callsFake(async function (key, value) {
             return new Promise((resolve, reject) => {
                 storage[key] = value;
                 resolve();
             });
         });
         
-        sinon.stub(Storage, 'restore').callsFake(async function (key) {
+        Sinon.stub(Storage, 'restore').callsFake(async function (key) {
             return new Promise((resolve, reject) => {
                 resolve(storage[key]);
             });

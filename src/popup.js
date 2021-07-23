@@ -1,20 +1,18 @@
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-const Storage = require('./modules/storage.js');
-const ExtensionOptions = require('./modules/options.js');
+const ExtensionOptions = require('./modules/options.js').Options;
 
 // todo: load title etc. from manifest
 // and localize texts
 
 let formRoot = document.getElementById("form-root");
 
-ExtensionOptions.forEach(option => {
+ExtensionOptions.getAll().then(options => options.forEach(option => {
     option.generateHtml(formRoot);
     option.onChanged = (function (key, value) {
-        Storage.save(key, value);
+        ExtensionOptions.set(key, value).then(() => {
+            console.log(`Option changed: ${key} - ${value}`);
+        });
     });
-    Storage.restore(option.id).then(function (value) {
-        option.restore(value);
-    });
-});
+}));
