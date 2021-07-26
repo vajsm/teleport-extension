@@ -25,7 +25,7 @@ function createTeleportEntries(targets) {
     targets.forEach(function (target) {
         createEntry(target);
     });
-};
+}
 
 /**
  * Creates an entry for given Teleport target. 
@@ -39,7 +39,7 @@ function createEntry(target) {
         parentId: target.parentId,
         contexts:  [ "page", "frame" ]
     });
-};
+}
 
 /**
  * Clears all the entries in the context menu.
@@ -47,7 +47,7 @@ function createEntry(target) {
 async function clear() {
     console.log("Clearing context menu entries");
     return chrome.contextMenus.removeAll();
-};
+}
 
 var refreshInProgress = false;
 
@@ -82,7 +82,7 @@ var ContextMenu = {
      * determines if the context menu needs to be refreshed, 
      * and repopulates the entries if it does. 
      */
-     refresh: async function() {
+    refresh: async function() {
         await refresh();
     },
     

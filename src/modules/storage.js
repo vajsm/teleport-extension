@@ -8,14 +8,14 @@
  * 
  * Details: https://stackoverflow.com/questions/42191030/promise-support-for-chrome-extensions-api 
  */
- var Storage = {
-     /**
-      * Saves the data in the storage.
-      * @param {string} key - setting key
-      * @param {*} value - value to save
-      */
+var Storage = {
+    /**
+     * Saves the data in the storage.
+     * @param {string} key - setting key
+     * @param {*} value - value to save
+     */
     save: async function(key, value) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             chrome.storage.local.set({ [key]: value }, function() { 
                 resolve();
             });
@@ -26,7 +26,7 @@
      * @param {string} key - setting key
      */
     restore: async function(key) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             chrome.storage.local.get([key], function(result) {
                 resolve(result[key]);
             });

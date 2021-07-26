@@ -179,20 +179,20 @@ Object.freeze(OptionsEnum);
 const SupportedOptions = [
     new DropdownOption(OptionsEnum.position, [
         new OptionValue("beginning"),
-        new OptionValue("end", isDefault = true)
+        new OptionValue("end", true)
     ]),
     new DropdownOption(OptionsEnum.language, [
-        new OptionValue("en", isDefault = true),
+        new OptionValue("en", true),
         // TODO: other languages not yet supported
         // new OptionValue("pl"),
         // new OptionValue("de")
     ]),
     new RadioOption(OptionsEnum.allTabs, [
-        new OptionValue("yes", isDefault = true),
+        new OptionValue("yes", true),
         new OptionValue("no")
     ]),
     new RadioOption(OptionsEnum.incognito, [
-        new OptionValue("yes", isDefault = true),
+        new OptionValue("yes", true),
         new OptionValue("no")
     ])
 ];

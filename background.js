@@ -1,5 +1,5 @@
-import "core-js/stable";
-import "regenerator-runtime/runtime";
+require("core-js/stable");
+require("regenerator-runtime/runtime");
 
 const ContextMenu = require('./src/modules/context-menu.js');
 const Options = require('./src/modules/options.js').Options;

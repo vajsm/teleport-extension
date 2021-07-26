@@ -13,37 +13,38 @@ const WIN_ID_SELECT = "tabToSelectWindow";
  */
 async function getSupportedTargets() {
     return [
-    {
-        id: WIN_ID_NEW,
-        title: await Localization.getMessage(WIN_ID_NEW),
-        options: {},
-        onClickEntry: onTeleportNew,
-        isAvailable(focused, windows) {
-            // This option only makes sense if there's at least two tabs in the window;
-            // otherwise we would create a new window while destroying the old one
-            return focused.tabs ? focused.tabs.length > 1 : false;
+        {
+            id: WIN_ID_NEW,
+            title: await Localization.getMessage(WIN_ID_NEW),
+            options: {},
+            onClickEntry: onTeleportNew,
+            isAvailable(focused, windows) {
+                // This option only makes sense if there's at least two tabs in the window;
+                // otherwise we would create a new window while destroying the old one
+                return focused.tabs ? focused.tabs.length > 1 : false;
+            }
+        },
+        {
+            id: WIN_ID_ANOTHER,
+            title: await Localization.getMessage(WIN_ID_ANOTHER),
+            options: {},
+            onClickEntry: onTeleportExisting,
+            isAvailable(focused, windows) {
+                // If there are precisely two windows, we immediately can determine the target
+                // for teleport (other than a new window)
+                return windows.filter(x => x.tabs.length > 0).length == 2;
+            }
+        },
+        {
+            id: WIN_ID_SELECT,
+            title: await Localization.getMessage(WIN_ID_SELECT),
+            options: {},
+            onClickEntry: onTeleportExisting,
+            isAvailable(focused, windows) {
+                return windows.length > 2;
+            }
         }
-    },
-    {
-        id: WIN_ID_ANOTHER,
-        title: await Localization.getMessage(WIN_ID_ANOTHER),
-        options: {},
-        onClickEntry: onTeleportExisting,
-        isAvailable(focused, windows) {
-            // If there are precisely two windows, we immediately can determine the target
-            // for teleport (other than a new window)
-            return windows.filter(x => x.tabs.length > 0).length == 2;
-        }
-    },
-    {
-        id: WIN_ID_SELECT,
-        title: await Localization.getMessage(WIN_ID_SELECT),
-        options: {},
-        onClickEntry: onTeleportExisting,
-        isAvailable(focused, windows) {
-            return windows.length > 2;
-        }
-    }];
+    ];
 }
 
 /**
@@ -67,7 +68,7 @@ function createChildTarget(window, parentId, idx) {
         options: options,
         onClickEntry: onTeleportExisting,
         isAvailable(focused, windows) {
-            return windows.find(x => x.id == id) != null;
+            return windows.find(x => x.id == childId) != null;
         }
     }
 }
