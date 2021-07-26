@@ -10,5 +10,65 @@
     "tabToSelectWindow": {
         "message": "Teleportuj do okna...",
         "description": "Opcja w menu kontekstowym, przenosząca kartę do wybranego okna."
+    },
+    "option_position": {
+        "message": "Docelowa pozycja kart",
+        "description": ""
+    },
+    "option_language": {
+        "message": "Język rozszerzenia",
+        "description": ""
+    },
+    "option_alltabs": {
+        "message": "Wyświetl opcję \"Teleportuj wszystkie karty\"",
+        "description": ""
+    },
+    "option_incognito": {
+        "message": "Zezwól na okna incognito jako cel teleportacji",
+        "description": "Rozszerzenie musi być aktywowane w oknach incognito (przejdź do <i>chrome://extensions -> Szczegóły -> Zezwól w trybie incognito</i>)."
+    },
+    "option_beginning": {
+        "message": "Umieść na początku",
+        "description": ""
+    },
+    "option_end": {
+        "message": "Umieść na końcu",
+        "description": ""
+    },
+    "option_en": {
+        "message": "Angielski",
+        "description": ""
+    },
+    "option_pl": {
+        "message": "Polski",
+        "description": ""
+    },
+    "option_de": {
+        "message": "Niemiecki",
+        "description": ""
+    },
+    "option_yes": {
+        "message": "Tak",
+        "description": ""
+    },
+    "option_no": {
+        "message": "Nie",
+        "description": ""
+    },
+    "popup_title": {
+        "message": "Rozszerzenie Teleport",
+        "description": ""
+    },
+    "popup_description": {
+        "message": "Rozszerzenie Chromium zezwalające na przenoszenie kart między oknami",
+        "description": ""
+    },
+    "popup_source": {
+        "message": "Strona projektu",
+        "description": ""
+    },
+    "popup_version": {
+        "message": "Wersja",
+        "description": ""
     }
 }

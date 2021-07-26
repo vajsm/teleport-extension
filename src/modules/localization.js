@@ -1,6 +1,8 @@
 async function getFromLocalFile(key) {
     return new Promise(resolve => {
         chrome.i18n.getAcceptLanguages((langs) => {
+            console.log(langs);
+
             let languageKey = 'en'; // todo: select appropriate language
             let file = require(`../../_locales/${languageKey}/messages.json`);
             let message = key in file ? file[key] : '';
