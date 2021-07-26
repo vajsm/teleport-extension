@@ -48,6 +48,19 @@ var HtmlHelper = {
         input.id = option.value;
         input.addEventListener("change", onChanged);
         return input;
+    },
+    /**
+     * Creates an element containing text.
+     * @param {string} id - ID of the HTLM element
+     * @param {string} type - type of the element, e.g. h1
+     * @param {string} text 
+     */
+    createText: function(id, type, text) {
+        var elem = document.createElement(type);
+        var textNode = document.createTextNode(text);
+        elem.appendChild(textNode);
+        elem.id = id;
+        return elem;
     }
 };
 module.exports = HtmlHelper;

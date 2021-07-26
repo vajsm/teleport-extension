@@ -54,5 +54,21 @@
     "option_no": {
         "message": "No",
         "description": ""
+    },
+    "popup_title": {
+        "message": "Teleport extension",
+        "description": ""
+    },
+    "popup_description": {
+        "message": "Chromium extension to move tabs around the browser's windows",
+        "description": ""
+    },
+    "popup_source": {
+        "message": "Project page",
+        "description": ""
+    },
+    "popup_version": {
+        "message": "Version",
+        "description": ""
     }
 }
