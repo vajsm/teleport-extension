@@ -63,8 +63,10 @@ class Option {
      * @param {OptionValue} item - item to be select
      */
     restore(item) {
-        let option = this.values.find(x => x.value == item) 
-                  ?? this.values.find(x => x.isDefault);
+        let option = this.values.find(x => x.value == item)
+        if (!option) {
+            option = this.values.find(x => x.isDefault);
+        }
         this.selectOption(option);
     }
     /**
@@ -222,8 +224,9 @@ var Options = {
         let option = SupportedOptions.find(option => option.id == key);
         if (option == null) {
             console.warn("Not supported option", key);
-            return null;
-            // throw new Error("Not supported option:", key);
+            return {
+                selectedValue: null
+            };
         }
         return restoreOption(option);
     },

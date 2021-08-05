@@ -201,8 +201,8 @@ var Teleport = {
             return new Promise();
         }
 
-        let allowIncognito = (await Options.get(OptionsEnum.incognito))?.selectedValue == "yes";
-        let allowAllTabs = (await Options.get(OptionsEnum.allTabs))?.selectedValue == "yes";
+        let allowIncognito = (await Options.get(OptionsEnum.incognito)).selectedValue == "yes";
+        let allowAllTabs = (await Options.get(OptionsEnum.allTabs)).selectedValue == "yes";
         
         if (!allowIncognito) {
             console.log("Filtering out incognito windows");

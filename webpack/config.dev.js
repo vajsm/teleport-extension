@@ -14,4 +14,3 @@ module.exports = merge(config, {
         poll: true
     },
 });
-
