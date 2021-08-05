@@ -15,6 +15,14 @@
         "message": "Teleport to a window...",
         "description": "Context menu option that teleports the tab to the select window."
     },
+    "allTabsToAnotherWindow": {
+        "message": "Teleport all tabs to another window",
+        "description": "Context menu option that teleports all the tabs to another (existing) window."
+    },
+    "allTabsToSelectWindow": {
+        "message": "Teleport all tabs to a window...",
+        "description": "Context menu option that teleports all the tabs to the select window."
+    },
     "option_position": {
         "message": "Target position of the tab",
         "description": ""

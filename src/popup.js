@@ -43,12 +43,10 @@ function createOptionsForm(parent) {
 }
 
 let detailsRoot = document.getElementById('details');
-Promise.all([
-    createLocalizedText(detailsRoot, 'title', 'h1'),
-    createLocalizedText(detailsRoot, 'description', 'p'),
-    createLocalizedText(detailsRoot, 'version', 'p', Package.version),
-    createLocalizedText(detailsRoot, 'source', 'p', Package.homepage)
-]);
+createLocalizedText(detailsRoot, 'title', 'h1');
+createLocalizedText(detailsRoot, 'description', 'p');
+createLocalizedText(detailsRoot, 'version', 'p', Package.version);
+createLocalizedText(detailsRoot, 'source', 'p', Package.homepage);
 
 let formRoot = document.getElementById('form-root');
 createOptionsForm(formRoot);
