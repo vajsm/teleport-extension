@@ -1,5 +1,5 @@
 {
-    "name": "Teleport Extension",
+    "name": "__MSG_extension_name__",
     "version": "0.1.0.0",
     "default_locale": "en",
     "manifest_version": 3,
