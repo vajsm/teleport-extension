@@ -163,12 +163,14 @@ const OptionsEnum =
      * Available values: `yes`/`no`.
      */
     allTabs: "alltabs",
+    // Incognito tabs as a target are disabled until there's a way 
+    // to move tabs to incognito window
     /**
      * Represents the availability of incognito windows as teleport target
      * in the context menu.
      * Available values: `yes`/`no`.
      */
-    incognito: "incognito"
+    // incognito: "incognito"
 }
 Object.freeze(OptionsEnum);
 
@@ -191,10 +193,12 @@ const SupportedOptions = [
         new OptionValue("yes", true),
         new OptionValue("no")
     ]),
-    new RadioOption(OptionsEnum.incognito, [
-        new OptionValue("yes", true),
-        new OptionValue("no")
-    ])
+    // Incognito tabs as a target are disabled until there's a way 
+    // to move tabs to incognito window
+    // new RadioOption(OptionsEnum.incognito, [
+    //     new OptionValue("yes"),
+    //     new OptionValue("no", true) 
+    // ])
 ];
 
 /**
@@ -211,11 +215,16 @@ var Options = {
         });
     },
     /**
-     * Returns the current setting with a given key.
+     * Returns the current setting with a given key, or null, if it cannot be found.
      * @param {string} key 
      */
     get: async function(key) {
         let option = SupportedOptions.find(option => option.id == key);
+        if (option == null) {
+            console.warn("Not supported option", key);
+            return null;
+            // throw new Error("Not supported option:", key);
+        }
         return restoreOption(option);
     },
     /**

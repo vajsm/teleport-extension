@@ -193,8 +193,16 @@ var Teleport = {
       * @returns {Promise<Target[]>} options to be created in the context menu
      */
     getAvailableTargets: async function(focused, windows) {
-        let allowIncognito = (await Options.get(OptionsEnum.incognito)).selectedValue == "yes";
-        let allowAllTabs = (await Options.get(OptionsEnum.allTabs)).selectedValue == "yes";
+
+        // Incognito tabs as a target are disabled until there's a way 
+        // to move tabs to incognito window
+        if (focused.incognito) {
+            console.warn("Incognito tabs cannot be moved");
+            return new Promise();
+        }
+
+        let allowIncognito = (await Options.get(OptionsEnum.incognito))?.selectedValue == "yes";
+        let allowAllTabs = (await Options.get(OptionsEnum.allTabs))?.selectedValue == "yes";
         
         if (!allowIncognito) {
             console.log("Filtering out incognito windows");

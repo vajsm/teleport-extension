@@ -1,7 +1,7 @@
 # ![icon](/assets/teleport32x32.png) Teleport
 Chromium extension to move tabs around the browser's windows. 
 
-Works with Chrome and Edge browsers. Although the browsers offer a similar features already, this extension adds an option to the tab's context menu when you click inside the page, and also allows (_well.. will allow_) you to move multiple tabs at once. 
+Works with Chrome and Edge browsers. Although the browsers offer a similar features already, this extension adds an option to the tab's context menu when you click inside the page, and also allows you to move multiple tabs at once. 
 
 It's also a good project for me to learn how to make browser extensions :) If you have a feature request, feel free to [open an issue](https://github.com/vajsm/teleport-extension/issues).
 
@@ -9,6 +9,10 @@ It's also a good project for me to learn how to make browser extensions :) If yo
 
 ## Features
 With this extension, you can easily transport tabs from one of your open windows to another. The extension offers new options in the context menu of the tab, where you can select a "teleport" target -- the window where to move the tab to.
+
+## Limitations/known issues
+* Incognito windows not yet supported
+* The only supported language for now is `en` -- due to the current limitations of background service workers. Details in `src/modules/localization.js`.
 
 ## Installation
 `TODO`: this section will be added once the extension is released. 
