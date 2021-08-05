@@ -34,7 +34,7 @@ Object.freeze(TargetWindowEnum);
  */
 // The array must be created at runtime due to the temporary nature of background service workers
 // eslint-disable-next-line max-lines-per-function
-async function getSupportedTargets() {
+async function getSupportedTargets(allowAllTabs) {
     return [
         {
             id: WIN_ID_NEW,
@@ -87,9 +87,8 @@ async function getSupportedTargets() {
             isAvailable(focused, windows) {
                 // If there are precisely two windows, we immediately can determine the target
                 // for teleport (other than a new window)
-
-                // todo: disable/enable this option based on user's choice
-                return focused.tabs.length > 1
+                return allowAllTabs
+                    && focused.tabs.length > 1
                     && windows.filter(x => x.tabs.length > 0).length == 2;
             }
         },
@@ -102,8 +101,8 @@ async function getSupportedTargets() {
             },
             onClickEntry: onTeleportExisting,
             isAvailable(focused, windows) {
-                // todo: disable/enable this option based on user's choice
-                return focused.tabs.length > 1 
+                return allowAllTabs
+                    && focused.tabs.length > 1 
                     && windows.length > 2;
             }
         }
@@ -194,15 +193,16 @@ var Teleport = {
       * @returns {Promise<Target[]>} options to be created in the context menu
      */
     getAvailableTargets: async function(focused, windows) {
-        let targets = await getSupportedTargets();
         let allowIncognito = (await Options.get(OptionsEnum.incognito)).selectedValue == "yes";
-
+        let allowAllTabs = (await Options.get(OptionsEnum.allTabs)).selectedValue == "yes";
+        
         if (!allowIncognito) {
             console.log("Filtering out incognito windows");
             windows = windows.filter(x => x.id == focused.id || !x.incognito);
         }
         
         let anotherWindow = windows.find(x => x.id != focused.id);
+        let targets = await getSupportedTargets(allowAllTabs);
         targets = targets.filter(x => x.isAvailable(focused, windows));
         
         targets.forEach(function(target) {
