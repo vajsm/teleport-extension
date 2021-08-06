@@ -113,20 +113,19 @@ async function getSupportedTargets(allowAllTabs) {
  * Creates an option in the context menu under a given parent. 
  * 
  * @param {chrome.windows.Window} window - the target window
- * @param {number} parentId - ID of the parent option (not the window)
+ * @param {*} parent - the parent option
  * @param {number} idx - human-friendly index of the target window to be displayed on the list
  * @returns 
  */
-function createChildTarget(window, parentId, idx) {
-    const childId = `${parentId}_${window.id}`;
+function createChildTarget(window, parent, idx) {
+    const childId = `${parent.id}_${window.id}`;
     const title = Windows.getName(window, idx);
-    const options = {
-        targetWindowId: window.id
-    };
+    let options = parent.options;
+    options.targetWindowId = window.id;
     return {
         id: childId,
         title: title,
-        parentId: parentId,
+        parentId: parent.id,
         options: options,
         onClickEntry: onTeleportExisting,
         isAvailable(focused, windows) {
@@ -167,7 +166,7 @@ async function onTeleportExisting(info, tab) {
     const targetId = this.options.targetWindowId;
     const teleportAllTabs = this.options.allTabs;
 
-    console.log("Teleporting to an existing window", info, tab);
+    console.log("Teleporting to an existing window", this, targetId, teleportAllTabs);
     
     let position = (await Options.get(OptionsEnum.position)).selectedValue;
     let tabsToMove = teleportAllTabs ? this.options.tabs : [tab];
@@ -221,8 +220,7 @@ var Teleport = {
                 break;
             case TargetWindowEnum.select:
                 windows.filter(x => x.id != focused.id).forEach((window, idx) => {
-                    let child = createChildTarget(window, target.id, idx);
-                    console.log("child created", child);
+                    let child = createChildTarget(window, target, idx);
                     targets.push(child);
                 });
                 break;
@@ -230,7 +228,10 @@ var Teleport = {
             default: 
                 break;
             }
-
+        });
+        // This loop is intentionally separated, 
+        // to include child targets created in the previous step
+        targets.forEach(function(target) {
             if (target.options.allTabs) {
                 target.options.tabs = focused.tabs;
             }
