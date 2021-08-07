@@ -146,8 +146,7 @@ async function onTeleportNew(info, tab) {
     // There doesn't seem to be a way to move the tab in a single step. 
     // Using 'url' property is not the same -- it will not persist state.
     let window = await chrome.windows.create({
-        "url": null,
-        "state": info.state
+        "url": null
     });
     await chrome.tabs.move(tab.id, {
         "index": -1,

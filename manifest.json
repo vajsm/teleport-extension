@@ -16,6 +16,32 @@
     "background": {
         "service_worker": "./background.js"
     },
+    "commands": {
+        "tab_to_new_window": {
+            "suggested_key": {
+                "default": "Alt+O"
+            },
+            "description": "Shortcut that teleports the tab to a new window."
+        },
+        "tab_to_another_window": {
+            "suggested_key": {
+                "default": "Alt+P"
+            },
+            "description": "Shortcut that teleports the tab to another (existing) window."
+        },
+        "all_tabs_to_new_window": {
+            "suggested_key": {
+                "default": "Alt+K"
+            },
+            "description": "Shortcut that teleports all the tabs to another (existing) window."
+        },
+        "all_tabs_to_another_window": {
+            "suggested_key": {
+                "default": "Alt+L"
+            },
+            "description": "Shortcut that teleports all the tabs to the select window."
+        }
+    },
     "permissions": [ 
         "tabs", 
         "contextMenus",
