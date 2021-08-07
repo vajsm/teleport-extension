@@ -16,10 +16,6 @@ const CommandsEnum = {
     /**
      * Shortcut that teleports all the tabs to another (existing) window.
      */
-    allTabsToNewWindow: "all_tabs_to_new_window",
-    /**
-     * Shortcut that teleports all the tabs to the select window.
-     */
     allTabsToAnotherWindow: "all_tabs_to_another_window" 
 }
 Object.freeze(CommandsEnum);

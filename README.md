@@ -1,14 +1,31 @@
 # ![icon](/assets/teleport32x32.png) Teleport
-Chromium extension to move tabs around the browser's windows. 
+Chromium extension to move tabs around the browser's windows from context menu or with keyboard shortcuts.
 
-Works with Chrome and Edge browsers. Although the browsers offer a similar features already, this extension adds an option to the tab's context menu when you click inside the page, and also allows you to move multiple tabs at once. 
+Works (tested) with Chrome and Edge browsers. Although the browsers offer a similar features already, this extension adds an option to the tab's context menu when you click inside the page, and also allows you to move multiple tabs at once. The extension also adds **keyboard shortcuts** for more convenient usage.
 
-It's also a good project for me to learn how to make browser extensions :) If you have a feature request, feel free to [open an issue](https://github.com/vajsm/teleport-extension/issues).
-
-**WORK IN PROGRESS**
+It's also a good project for me to learn how to make browser extensions :) 
 
 ## Features
 With this extension, you can easily transport tabs from one of your open windows to another. The extension offers new options in the context menu of the tab, where you can select a "teleport" target -- the window where to move the tab to.
+
+The extension allows you to: 
+* **move the current tab to a new window**, if you have more than one tabs in the window,
+* **move the current tab to another window**, if you have precisely two windows in the window,
+* **move the current tab to one of the other windows**, if you have more than two windows (you can select which one),
+* **move all the tabs** to one of the aforementioned targets. 
+
+To some extent the extension allows you to configure the behavior of teleport action (e.g. you can choose if the teleport tab should be placed on the beginning or on the end on the tab bar). More options to be added in the future. 
+
+If you have a feature request, feel free to [open an issue](https://github.com/vajsm/teleport-extension/issues).
+
+### Keyboard shortcuts
+If the command is applicable for the current window, you can invoke it with the following keyboard shortcuts: 
+
+* `Alt+O` -- Move the current tab to a new window 
+* `Alt+P` -- Move the current tab to another window (if exists)
+* `Alt+L` -- Move all the tabs to another window (if exists)
+
+In the future releases the extension will let you to configure the shortcuts to match your preference, or disable them completely.
 
 ## Limitations/known issues
 * Incognito windows not yet supported

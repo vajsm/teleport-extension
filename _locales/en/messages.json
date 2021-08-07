@@ -72,12 +72,12 @@
         "description": ""
     },
     "popup_description": {
-        "message": "Chromium extension to move tabs around the browser's windows",
+        "message": "Chromium extension to move tabs around the browser's windows from context menu or with keyboard shortcuts. Details of the shortcuts can be found on project page.",
         "description": ""
     },
     "popup_source": {
         "message": "Project page",
-        "description": ""
+        "description": "https://github.com/vajsm/teleport-extension"
     },
     "popup_version": {
         "message": "Version",
