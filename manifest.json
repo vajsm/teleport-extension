@@ -1,6 +1,6 @@
 {
     "name": "__MSG_extension_name__",
-    "version": "0.1.0.0",
+    "version": "0.1.1.0",
     "default_locale": "en",
     "manifest_version": 3,
     "description": "Chromium extension to move tabs around the browser's windows.",
@@ -37,7 +37,6 @@
         }
     },
     "permissions": [ 
-        "tabs", 
         "contextMenus",
         "storage"
     ]

@@ -1,6 +1,6 @@
 {
     "name": "teleport-extension",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "vajsm",
     "homepage": "https://github.com/vajsm/teleport-extension",
     "license": "GNU GENERAL PUBLIC LICENSE v3",
@@ -13,6 +13,7 @@
         "build": "webpack --config ./webpack/config.prod.js && npm run pack",
         "start": "webpack --config ./webpack/config.dev.js",
         "test": "mochapack --watch --webpack-config ./webpack/config.test.js \"tests/*.test.js\"",
+        "test:no-watch": "mochapack --webpack-config ./webpack/config.test.js \"tests/*.test.js\"",
         "lint": "npx eslint *.js",
         "clean": "rm -rf ./dist",
         "pack": "cd dist/prod && crx pack -p ../../packagekey.pem -o ../teleport-ext.crx"
