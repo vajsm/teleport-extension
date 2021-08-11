@@ -32,7 +32,9 @@ In the future releases the extension will let you to configure the shortcuts to 
 * The only supported language for now is `en` -- due to the current limitations of background service workers. Details in `src/modules/localization.js`.
 
 ## Installation
-`TODO`: this section will be added once the extension is released. 
+The extension is published in Chrome Web Store:
+https://chrome.google.com/webstore/detail/teleport-extension/bkpcdmdbhnbhmonmahnmblinbbahojlh?hl=pl&authuser=2 
+Leave a review if you use the extension! :) 
 
 ### Local build
 You can build the extension locally from source. 
